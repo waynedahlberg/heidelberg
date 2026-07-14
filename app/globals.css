@@ -63,13 +63,31 @@
    Everything vertical is a multiple of --baseline. Everything horizontal
    derives from the measure. The scale uses simple book fractions
    (7/8 · 1 · 9/8 · 5/4 · 3/2 · 2 · 5/2) rather than a decimal ramp.
+
+   --measure / --gutter / --margin-w are registered <length> properties so
+   their `ch` units resolve once against the body face — not again on every
+   child. Without that, a pull quote at a larger font-size gets a wider
+   "62ch" and paints into the scholar's margin.
 --------------------------------------------------------------------------- */
+@property --measure {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --margin-w {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --gutter {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
 :root {
   --body-size: 1.25rem;      /* 20px — Alegreya is small on the body        */
   --baseline: 1.75rem;       /* 28px leading → ratio 1.4 (EoTS 2.2.1)       */
-  --measure: 62ch;           /* 45–75 char ideal; 66 "ideal book" (EoTS 2.1)*/
-  --margin-w: 16.5ch;        /* the scholar's margin, à la Tufte            */
-  --gutter: 4ch;             /* between measure and margin                  */
   --indent: 1.5em;           /* paragraph indent ≈ one lead (EoTS 2.3.2)    */
   --rule-w: 1px;             /* hairline weight                             */
 
@@ -95,6 +113,43 @@
 --------------------------------------------------------------------------- */
 * { box-sizing: border-box; }
 
+/* ----------------------------------------------------------------------------
+   Page transitions — quiet crossfade via the View Transitions API.
+   next-view-transitions triggers these on <Link> navigations; unsupported
+   browsers simply navigate without animation.
+--------------------------------------------------------------------------- */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 220ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-old(root) {
+    animation-name: page-fade-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: page-fade-in;
+  }
+}
+
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 html {
   background: var(--paper);
   color: var(--ink);
@@ -110,6 +165,11 @@ body {
   line-height: var(--baseline);
   font-weight: 400;
   font-optical-sizing: auto;
+
+  /* Resolve ch against the body face, then inherit as absolute lengths. */
+  --measure: 62ch;           /* 45–75 char ideal; 66 "ideal book" (EoTS 2.1)*/
+  --margin-w: 16.5ch;        /* the scholar's margin, à la Tufte            */
+  --gutter: 4ch;             /* between measure and margin                  */
 
   /* The OpenType conscience of the whole site (EoTS ch. 3 & 5;
      webtypography 3.2.2 ligatures, 3.2.5 old-style figures, 5.1.1 kerning) */
@@ -375,8 +435,9 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
 .epigraph p { text-align: left; text-indent: 0; }
 .epigraph em, .epigraph cite { font-style: normal; }
 
-/* — Pull quote: the one deliberately loud element. Breaks the measure,
-     set large in italic, framed by hairlines, rubric hedera. */
+/* — Pull quote: the one deliberately loud element. Stays in the measure
+     so it never paints over the scholar’s margin; presence comes from
+     size, italic, hairlines, and the rubric hedera — not from width. */
 .pullquote {
   margin: calc(var(--baseline) * 1.5) 0;
   padding: var(--baseline) 0;

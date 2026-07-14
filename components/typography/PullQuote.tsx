@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  */
 export function PullQuote({ children }: { children: ReactNode }) {
   return (
-    <aside className="pullquote fullwidth" role="presentation">
+    <aside className="pullquote" role="presentation">
       {typeof children === "string" ? <p>{children}</p> : children}
     </aside>
   );

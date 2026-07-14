@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Alegreya, Alegreya_SC, Courier_Prime } from "next/font/google";
+import { ViewTransitions } from "next-view-transitions";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 const alegreya = Alegreya({
@@ -31,11 +33,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${alegreya.variable} ${alegreyaSc.variable} ${courierPrime.variable}`}
-    >
-      <body>{children}</body>
-    </html>
+    <ViewTransitions>
+      <html
+        lang="en"
+        className={`${alegreya.variable} ${alegreyaSc.variable} ${courierPrime.variable}`}
+      >
+        <body>
+          <SmoothScroll>{children}</SmoothScroll>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
