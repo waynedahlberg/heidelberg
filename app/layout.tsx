@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Alegreya, Alegreya_SC, Courier_Prime } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { UiProviders } from "@/components/UiProviders";
 import "./globals.css";
 
 const alegreya = Alegreya({
@@ -39,7 +40,9 @@ export default function RootLayout({
         className={`${alegreya.variable} ${alegreyaSc.variable} ${courierPrime.variable}`}
       >
         <body>
-          <SmoothScroll>{children}</SmoothScroll>
+          <UiProviders>
+            <SmoothScroll>{children}</SmoothScroll>
+          </UiProviders>
         </body>
       </html>
     </ViewTransitions>

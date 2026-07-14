@@ -13,14 +13,37 @@ import {
   Figure,
   SmallCaps,
 } from "@/components/typography";
+import {
+  DemoButtons,
+  DemoBadgeTooltip,
+  DemoThinking,
+  DemoAccordionCivility,
+  DemoSwitchCivility,
+  DemoSliderEconomy,
+  DemoTableEconomy,
+  DemoRadioSelection,
+  DemoCheckboxStruggle,
+  DemoSelectTabs,
+  DemoDialogDropdown,
+  DemoInputSong,
+  DemoRecapControls,
+  DemoAskQuestions,
+  DemoChatComposer,
+  DemoColorRubric,
+  DemoInputCopyCite,
+  DemoMobileDrawerNav,
+  DemoScrollCatalogue,
+  DemoSegmentedTabs,
+  DemoThinkingSteps,
+  DemoFileMark,
+} from "@/components/demos";
 
 /**
  * The components available inside every MDX essay. Plain markdown maps to
  * the typeset defaults (styling lives in globals.css under .typeset);
- * the typographic set is in scope without imports.
+ * the typographic set and Fluid Functionalism demos are in scope without imports.
  */
 export const mdxComponents: MDXComponents = {
-  // Markdown element overrides
   table: (props: ComponentPropsWithoutRef<"table">) => (
     <div className="table-wrap">
       <table {...props} />
@@ -28,7 +51,6 @@ export const mdxComponents: MDXComponents = {
   ),
   hr: () => <SectionBreak />,
 
-  // The typographic component set
   Sidenote,
   MarginNote,
   Epigraph,
@@ -40,4 +62,27 @@ export const mdxComponents: MDXComponents = {
   Verse,
   Figure,
   SmallCaps,
+
+  DemoButtons,
+  DemoBadgeTooltip,
+  DemoThinking,
+  DemoAccordionCivility,
+  DemoSwitchCivility,
+  DemoSliderEconomy,
+  DemoTableEconomy,
+  DemoRadioSelection,
+  DemoCheckboxStruggle,
+  DemoSelectTabs,
+  DemoDialogDropdown,
+  DemoInputSong,
+  DemoRecapControls,
+  DemoAskQuestions,
+  DemoChatComposer,
+  DemoColorRubric,
+  DemoInputCopyCite,
+  DemoMobileDrawerNav,
+  DemoScrollCatalogue,
+  DemoSegmentedTabs,
+  DemoThinkingSteps,
+  DemoFileMark,
 };

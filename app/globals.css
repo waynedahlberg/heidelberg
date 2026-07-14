@@ -19,6 +19,8 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 /* ----------------------------------------------------------------------------
    1 · INK & PAPER  (EoTS ch. 6 — "choose a palette as you would a spice")
    Semantic colors live on :root so dark mode is a single override.
@@ -30,6 +32,51 @@
   --rubric: #94321f;         /* rubrication red — links, ornaments, accents  */
   --rule: #d9d3c1;           /* hairlines                                    */
   --paper-recessed: #f5f1e4; /* code blocks, table stripes if ever needed    */
+
+  /* Fluid Functionalism semantic tokens → Aldine ink & paper */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-recessed);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-recessed);
+  --muted-foreground: var(--ink-faded);
+  --accent: color-mix(in oklab, var(--paper-recessed) 70%, var(--rule));
+  --accent-foreground: var(--ink);
+  --destructive: #9b2c2c;
+  --destructive-foreground: var(--paper);
+  --destructive-light: color-mix(in oklab, #9b2c2c 12%, var(--paper));
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--rubric);
+  --hover: color-mix(in oklab, var(--ink) 6%, var(--paper));
+  --active: color-mix(in oklab, var(--ink) 10%, var(--paper));
+  --focus-ring: var(--rubric);
+  --overlay: 35 32 26; /* ink RGB for color-mix overlays in FF switches */
+
+  /* Surfaces: warm paper ladder (not cool gray) */
+  --surface-1: var(--paper-recessed);
+  --surface-2: color-mix(in oklab, var(--paper) 85%, var(--paper-recessed));
+  --surface-3: var(--paper);
+  --surface-4: var(--paper);
+  --surface-5: var(--paper);
+  --surface-6: var(--paper);
+  --surface-7: var(--paper);
+  --surface-8: var(--paper);
+  --shadow-color: rgb(35 32 26 / 0.07);
+  --shadow-1: 0 0 0 1px var(--shadow-color);
+  --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
+  --shadow-3: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color);
+  --shadow-4: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color);
+  --shadow-5: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color);
+  --shadow-6: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color);
+  --shadow-7: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color);
+  --shadow-8: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color), 0 96px 96px -48px var(--shadow-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,6 +87,8 @@
     --rubric: #d0755f;
     --rule: #3b372e;
     --paper-recessed: #211e18;
+    --overlay: 229 224 210;
+    --shadow-color: rgb(0 0 0 / 0.35);
   }
 }
 
@@ -51,9 +100,94 @@
   --color-rule: var(--rule);
   --color-paper-recessed: var(--paper-recessed);
 
+  /* shadcn / Fluid Functionalism color bridge */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-light: var(--destructive-light);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hover: var(--hover);
+  --color-active: var(--active);
+
   --font-serif: var(--font-alegreya), "Alegreya", Georgia, "Times New Roman", serif;
   --font-sc: var(--font-alegreya-sc), "Alegreya SC", var(--font-alegreya), serif;
   --font-mono: var(--font-courier-prime), "Courier Prime", "Courier New", monospace;
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-surface-5: var(--surface-5);
+  --color-surface-6: var(--surface-6);
+  --color-surface-7: var(--surface-7);
+  --color-surface-8: var(--surface-8);
+  --shadow-surface-1: var(--shadow-1);
+  --shadow-surface-2: var(--shadow-2);
+  --shadow-surface-3: var(--shadow-3);
+  --shadow-surface-4: var(--shadow-4);
+  --shadow-surface-5: var(--shadow-5);
+  --shadow-surface-6: var(--shadow-6);
+  --shadow-surface-7: var(--shadow-7);
+  --shadow-surface-8: var(--shadow-8);
+  --color-dm-drop: var(--dm-drop);
+  --color-dm-ring-high: var(--dm-ring-high);
+  --color-dm-ring-mid: var(--dm-ring-mid);
+  --color-dm-ring-base: var(--dm-ring-base);
+  --color-dm-hi-peak: var(--dm-hi-peak);
+  --color-dm-hi-high: var(--dm-hi-high);
+  --color-dm-hi-mid: var(--dm-hi-mid);
+  --color-dm-hi-base: var(--dm-hi-base);
+  --shadow-8: var(--shadow-8);
+  --shadow-7: var(--shadow-7);
+  --shadow-6: var(--shadow-6);
+  --shadow-5: var(--shadow-5);
+  --shadow-4: var(--shadow-4);
+  --shadow-3: var(--shadow-3);
+  --shadow-2: var(--shadow-2);
+  --shadow-1: var(--shadow-1);
+  --color-shadow-color: var(--shadow-color);
+}
+
+/* Fluid Functionalism motion — must live outside @theme so inline /
+   component animations can resolve the names (spinner-move, etc.). */
+@keyframes shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: 100% 0; }
+}
+@keyframes spinner-move {
+  to { stroke-dashoffset: -100; }
+}
+@keyframes spinner-dash {
+  0%, 100% { stroke-dasharray: 15 85; }
+  50% { stroke-dasharray: 40 60; }
+}
+
+.ff-spinner-path {
+  stroke-dasharray: 15 85;
+  animation:
+    spinner-move 2s linear infinite,
+    spinner-dash 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-spinner-path {
+    animation: none;
+    stroke-dasharray: 40 60;
+  }
 }
 
 /* ----------------------------------------------------------------------------
@@ -159,6 +293,15 @@ html {
   /* EoTS 5.5 / webtypography 3.5: hang punctuation into the margin.
      Progressive enhancement — Safari honors it, others ignore it. */
   hanging-punctuation: first last;
+}
+
+/* Radix Dialog/Select/Dropdown lock scroll and inject margin/padding equal to
+   the scrollbar width. With scrollbar-gutter: stable that space is already
+   reserved — the compensation doubles and the page jumps sideways. */
+html body[data-scroll-locked] {
+  --removed-body-scroll-bar-size: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
 }
 
 body {
@@ -922,6 +1065,37 @@ button.margin-toggle.sidenote-number {
 .typeset-form button:hover { color: var(--rubric); border-color: var(--rubric); }
 
 /* ----------------------------------------------------------------------------
+   FLUID FUNCTIONALISM demos — interactive specimens inside the measure.
+   Inherit Alegreya; keep chrome quiet so the book voice remains primary.
+--------------------------------------------------------------------------- */
+.ui-demo {
+  margin: calc(var(--baseline) * 1.25) 0;
+  padding: var(--baseline) 0;
+  border-top: var(--rule-w) solid var(--rule);
+  border-bottom: var(--rule-w) solid var(--rule);
+  font-family: var(--font-serif);
+  font-size: var(--size-small);
+  line-height: var(--baseline);
+  text-indent: 0;
+  max-width: var(--measure);
+}
+.ui-demo-label {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-caption);
+  letter-spacing: 0.14em;
+  color: var(--rubric);
+  margin: 0 0 calc(var(--baseline) * 0.75);
+  line-height: var(--leading-caption);
+}
+.ui-demo p:last-child { margin-bottom: 0; }
+.typeset .ui-demo button,
+.typeset .ui-demo input,
+.typeset .ui-demo [role="button"] {
+  font-family: var(--font-serif);
+}
+
+/* ----------------------------------------------------------------------------
    9 · PRINT — the design returns home.
 --------------------------------------------------------------------------- */
 @media print {
@@ -929,4 +1103,40 @@ button.margin-toggle.sidenote-number {
   .site-nav, .nav-toggle, .colophon-footer, button.margin-toggle { display: none !important; }
   .page { max-width: none; padding: 0; }
   .typeset a { text-decoration: none; }
+}
+
+.dark {
+  --surface-1: #171717;
+  --surface-2: #1E1E1E;
+  --surface-3: #252525;
+  --surface-4: #2C2C2C;
+  --surface-5: #333333;
+  --surface-6: #3A3A3A;
+  --surface-7: #414141;
+  --surface-8: #484848;
+  --dm-hi-base: rgba(255,255,255,0.01);
+  --dm-hi-mid: rgba(255,255,255,0.02);
+  --dm-hi-high: rgba(255,255,255,0.04);
+  --dm-hi-peak: rgba(255,255,255,0.06);
+  --dm-ring-base: rgba(255,255,255,0.02);
+  --dm-ring-mid: rgba(255,255,255,0.04);
+  --dm-ring-high: rgba(255,255,255,0.06);
+  --dm-drop: rgba(0,0,0,0.18);
+  --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
+  --shadow-2: inset 0 1px 0 0 var(--dm-hi-base), inset 0 0 0 1px var(--dm-ring-base), 0 1px 1px -0.5px var(--dm-drop);
+  --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base), 0 0 0 1px rgba(0,0,0,0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
+  --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0,0,0,0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop);
+  --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0,0,0,0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
+  --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
+  --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.20), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop);
+  --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
+}
+
+.shimmer-text {
+    color: transparent;
+    background: linear-gradient(90deg, #a3a3a3 0%, #a3a3a3 35%, #525252 50%, #a3a3a3 65%, #a3a3a3 100%);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shimmer 1.5s ease-in-out infinite;
 }
