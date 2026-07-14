@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Page } from "@/components/Page";
 import { mdxComponents } from "@/components/mdx-components";
 import { getAllPosts, getPostBySlug, formatDate } from "@/lib/posts";
 
@@ -28,7 +29,7 @@ export default async function EssayPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <div className="page with-margin">
+    <Page>
       <Header current="/essays" />
       <main>
         <article>
@@ -61,6 +62,6 @@ export default async function EssayPage({ params }: Props) {
         </article>
       </main>
       <Footer />
-    </div>
+    </Page>
   );
 }

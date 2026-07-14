@@ -1,13 +1,14 @@
 import { Link } from "next-view-transitions";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Page } from "@/components/Page";
 import { getAllPosts, formatDate } from "@/lib/posts";
 
 export default function HomePage() {
   const posts = getAllPosts();
 
   return (
-    <div className="page">
+    <Page>
       <Header current="/" />
       <main>
         <header className="article-header">
@@ -23,7 +24,7 @@ export default function HomePage() {
         </header>
 
         <h2
-          className="smallcaps"
+          className="rail smallcaps"
           style={{
             fontSize: "var(--size-caption)",
             fontWeight: 500,
@@ -56,6 +57,6 @@ export default function HomePage() {
         </ol>
       </main>
       <Footer />
-    </div>
+    </Page>
   );
 }

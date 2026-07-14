@@ -153,6 +153,9 @@
 html {
   background: var(--paper);
   color: var(--ink);
+  /* Reserve the scrollbar lane even on short pages so the column
+     does not shift when navigating between scrollable and non-scrollable routes. */
+  scrollbar-gutter: stable;
   /* EoTS 5.5 / webtypography 3.5: hang punctuation into the margin.
      Progressive enhancement — Safari honors it, others ignore it. */
   hanging-punctuation: first last;
@@ -170,6 +173,7 @@ body {
   --measure: 62ch;           /* 45–75 char ideal; 66 "ideal book" (EoTS 2.1)*/
   --margin-w: 16.5ch;        /* the scholar's margin, à la Tufte            */
   --gutter: 4ch;             /* between measure and margin                  */
+  --folio: calc(var(--measure) + var(--gutter) + var(--margin-w));
 
   /* The OpenType conscience of the whole site (EoTS ch. 3 & 5;
      webtypography 3.2.2 ligatures, 3.2.5 old-style figures, 5.1.1 kerning) */
@@ -181,20 +185,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* The page column: wide enough for measure + margin when the viewport
-   allows, a single measure otherwise. */
+/* ----------------------------------------------------------------------------
+   PAGE SHELL — one width everywhere.
+
+   --folio is the constant outer shell (measure + gutter + scholar's margin).
+   --measure is the reading rail. Sidenotes live in the reserved margin;
+   pages without notes simply leave that column empty. Navigating never
+   changes the shell, so the column does not jump.
+--------------------------------------------------------------------------- */
 .page {
-  max-width: var(--measure);
+  max-width: var(--folio);
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
-@media (min-width: 71rem) {
-  .page.with-margin {
-    max-width: calc(var(--measure) + var(--gutter) + var(--margin-w));
-    /* Text block sits left-of-center; the margin balances it — the
-       asymmetric recto page of a book (EoTS ch. 8, page shapes). */
-  }
+/* Rare escape: a page that truly has no use for the margin column. */
+.page[data-shell="measure"] {
+  max-width: var(--measure);
+}
+
+/* Reading rail — chrome and indexes share the text edge; .typeset stays
+   folio-wide so sidenotes can float into the reserved margin. */
+.rail,
+.masthead-wrap,
+.article-header,
+.toc-list,
+.typeset-form,
+.colophon-footer {
+  max-width: var(--measure);
 }
 
 ::selection {
@@ -393,7 +411,7 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
 
 /* Anything allowed to occupy the full ensemble (figures, tables, code) */
 @media (min-width: 71rem) {
-  .typeset .fullwidth { max-width: calc(var(--measure) + var(--gutter) + var(--margin-w)); }
+  .typeset .fullwidth { max-width: var(--folio); }
 }
 
 /* ----------------------------------------------------------------------------

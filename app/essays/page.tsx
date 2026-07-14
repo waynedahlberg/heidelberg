@@ -2,6 +2,7 @@ import { Link } from "next-view-transitions";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Page } from "@/components/Page";
 import { getAllPosts, formatDate } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export default function EssaysPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="page">
+    <Page>
       <Header current="/essays" />
       <main>
         <header className="article-header">
@@ -45,6 +46,6 @@ export default function EssaysPage() {
         </ol>
       </main>
       <Footer />
-    </div>
+    </Page>
   );
 }

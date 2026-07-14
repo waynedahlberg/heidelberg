@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Page } from "@/components/Page";
 import { Newthought, SectionBreak, MarginNote } from "@/components/typography";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ColophonPage() {
   return (
-    <div className="page with-margin">
+    <Page>
       <Header current="/colophon" />
       <main>
         <article>
@@ -118,6 +119,6 @@ export default function ColophonPage() {
         </article>
       </main>
       <Footer />
-    </div>
+    </Page>
   );
 }

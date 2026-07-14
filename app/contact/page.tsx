@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Page } from "@/components/Page";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="page">
+    <Page>
       <Header current="/contact" />
       <main>
         <header className="article-header">
@@ -42,6 +43,6 @@ export default function ContactPage() {
         </form>
       </main>
       <Footer />
-    </div>
+    </Page>
   );
 }
