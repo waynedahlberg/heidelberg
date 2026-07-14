@@ -53,6 +53,10 @@ export default async function EssayPage({ params }: Props) {
               source={post.content}
               components={mdxComponents}
               options={{
+                // v6 defaults blockJS:true (CVE-2026-0969). Our essays are
+                // trusted repo content and need JSX attr expressions
+                // (e.g. Verse text={`…`}). Keep blockDangerousJS on.
+                blockJS: false,
                 mdxOptions: {
                   remarkPlugins: [remarkGfm],
                 },

@@ -9,7 +9,7 @@
  *   My tongue, every atom of my blood…`} />
  */
 export function Verse({ text, source }: { text: string; source?: React.ReactNode }) {
-  const stanzas = text
+  const stanzas = (text ?? "")
     .split(/\n\s*\n/)
     .map((s) => s.split("\n").map((l) => l.trimEnd()).filter((l) => l.length > 0));
 
