@@ -348,7 +348,8 @@ body {
    5 · THE SCHOLAR'S MARGIN — sidenotes & margin notes (tufte-css mechanics)
    Numbered sidenotes replace footnotes (EoTS 6.1: notes belong beside the
    text they serve). On narrow viewports they hide behind their number;
-   tapping the number reveals them inline. Pure CSS, no JS.
+   tapping the number reveals them inline (Motion height/opacity). Desktop
+   float styles win over Motion’s inline closed-state via !important.
 --------------------------------------------------------------------------- */
 .sidenote, .marginnote {
   float: right;
@@ -386,26 +387,59 @@ body {
   top: -0.35em;
 }
 
-input.margin-toggle { display: none; }
-label.sidenote-number { display: inline-block; max-height: var(--baseline); cursor: default; }
-label.margin-toggle:not(.sidenote-number) { display: none; }
+/* Toggle is a real <button>; Motion owns open/close on narrow viewports. */
+button.margin-toggle {
+  appearance: none;
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  cursor: pointer;
+  vertical-align: baseline;
+}
+button.margin-toggle.sidenote-number {
+  display: inline-block;
+  max-height: var(--baseline);
+  cursor: default;
+}
 
-/* Margin-note glyph (unnumbered notes) shown only on narrow screens */
 .marginnote-glyph { color: var(--rubric); }
 
 @media (max-width: 70.99rem) {
-  label.margin-toggle:not(.sidenote-number) { display: inline; cursor: pointer; }
-  label.sidenote-number { cursor: pointer; }
-  .sidenote, .marginnote { display: none; }
-  .margin-toggle:checked + .sidenote,
-  .margin-toggle:checked + .marginnote {
-    display: block;
+  button.margin-toggle:not(.sidenote-number) { display: inline; }
+  button.margin-toggle { cursor: pointer; }
+
+  .sidenote, .marginnote {
     float: none;
     clear: both;
     width: auto;
-    margin: calc(var(--baseline) / 2) 0 calc(var(--baseline) / 2) var(--indent);
+    margin-right: 0;
+    margin-top: calc(var(--baseline) / 2);
+    margin-bottom: calc(var(--baseline) / 2);
+    margin-left: var(--indent);
     padding-left: 1ch;
     border-left: var(--rule-w) solid var(--rule);
+  }
+}
+
+/* Wide: keep the scholar’s margin legible even if Motion’s first paint
+   still thinks the viewport is narrow (SSR snapshot). */
+@media (min-width: 71rem) {
+  button.margin-toggle {
+    pointer-events: none;
+    cursor: default;
+  }
+  button.margin-toggle:not(.sidenote-number) { display: none; }
+
+  .sidenote, .marginnote {
+    display: block !important;
+    height: auto !important;
+    opacity: 1 !important;
+    overflow: visible !important;
   }
 }
 
@@ -634,6 +668,13 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
   margin-top: 3px;
   margin-bottom: -4px;
 }
+.masthead-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 2.75rem; /* 44px touch lane beside the wordmark */
+}
 .masthead-title {
   font-family: var(--font-sc);
   text-transform: lowercase;
@@ -643,8 +684,42 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
   margin: 0;
   line-height: var(--baseline);
 }
-.masthead-title a { color: inherit; text-decoration: none; }
+.masthead-title a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
 .masthead-title a:hover { color: var(--rubric); }
+
+/* Menu toggle — desktop hidden; phone: a small-caps word, not a glyph salad */
+.nav-toggle {
+  display: none;
+  appearance: none;
+  margin: 0;
+  padding: 0 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-weight: 500;
+  font-size: var(--size-caption);
+  letter-spacing: 0.16em;
+  line-height: 1;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle:hover { color: var(--rubric); }
+.nav-toggle:focus-visible {
+  outline: var(--rule-w) solid var(--rubric);
+  outline-offset: 4px;
+}
+.nav-toggle-label { pointer-events: none; }
 
 .site-nav {
   display: flex;
@@ -656,10 +731,61 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
   font-size: var(--size-caption);
   letter-spacing: 0.14em;
 }
-.site-nav a { color: var(--ink-faded); text-decoration: none; }
-.site-nav a:hover { color: var(--rubric); }
-.site-nav a[aria-current="page"] { color: var(--ink); }
-.site-nav a[aria-current="page"]::before { content: "❧ "; color: var(--rubric); letter-spacing: 0; }
+.site-nav-link {
+  color: var(--ink-faded);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+.site-nav-link:hover { color: var(--rubric); }
+.site-nav-link[aria-current="page"] { color: var(--ink); }
+.site-nav-link[aria-current="page"]::before {
+  content: "❧ ";
+  color: var(--rubric);
+  letter-spacing: 0;
+}
+
+/* Phone: wordmark + Menu on one rule; nav unfolds via Motion */
+@media (max-width: 40rem) {
+  .masthead {
+    padding-top: calc(var(--baseline) * 1.15);
+  }
+
+  .nav-toggle { display: inline-flex; }
+
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 0;
+    border-bottom: 0;
+    margin: 0;
+  }
+  .site-nav[data-expanded="true"] {
+    border-bottom: var(--rule-w) solid var(--ink);
+    margin: 0 0 calc(var(--baseline) * 0.75);
+  }
+
+  .site-nav-link {
+    width: 100%;
+    min-height: 3.25rem; /* 52px — roomy thumb target with hairline separators */
+    padding: 0.5rem 0;
+    border-bottom: var(--rule-w) solid var(--rule);
+    letter-spacing: 0.16em;
+  }
+  .site-nav-link:last-child { border-bottom: 0; }
+}
+
+/* Desktop/tablet: nav stays in flow; override Motion’s phone-closed paint */
+@media (min-width: 40.01rem) {
+  .site-nav {
+    height: auto !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+  }
+}
 
 /* — Article opening: kicker, title, subtitle, byline. */
 .article-header { margin: calc(var(--baseline) * 2.5) 0 calc(var(--baseline) * 2); }
@@ -800,7 +926,7 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
 --------------------------------------------------------------------------- */
 @media print {
   :root { --paper: #fff; --ink: #000; }
-  .site-nav, .colophon-footer, label.margin-toggle { display: none !important; }
+  .site-nav, .nav-toggle, .colophon-footer, button.margin-toggle { display: none !important; }
   .page { max-width: none; padding: 0; }
   .typeset a { text-decoration: none; }
 }
