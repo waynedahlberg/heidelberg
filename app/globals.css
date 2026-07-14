@@ -1,0 +1,727 @@
+/* ============================================================================
+   ALDINE — a typographic system for the web
+   after Robert Bringhurst, "The Elements of Typographic Style" (v4.3)
+
+   Sources of the method:
+   — Bringhurst, The Elements of Typographic Style (numbered rules cited as EoTS §)
+   — Richard Rutter, webtypography.net (EoTS applied to the web)
+   — Oskar Wickström, The Proportional Web (Alegreya system, rhythm in rem)
+   — Edward Tufte / tufte-css (margin-column & sidenote mechanics)
+   — Matthew Butterick, Practical Typography (measure, hierarchy restraint)
+
+   The system in one sentence: one versatile typeface family (Alegreya, with
+   its true small-caps companion and Courier Prime for the machine voice), a
+   single text measure of ~62 characters, every vertical distance a multiple
+   of one baseline unit, old-style figures in prose, true small caps for
+   emphasis and wayfinding, black ink on warm paper, and one rubric red used
+   the way medieval scribes used it — sparingly, for utterance, not decoration.
+   ========================================================================= */
+
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   1 · INK & PAPER  (EoTS ch. 6 — "choose a palette as you would a spice")
+   Semantic colors live on :root so dark mode is a single override.
+--------------------------------------------------------------------------- */
+:root {
+  --paper: #fdfbf3;          /* warm book-paper white, after Tufte's #fffff8 */
+  --ink: #23201a;            /* soft black — pure #000 glares on screens     */
+  --ink-faded: #6f6a5e;      /* captions, folios, bylines                    */
+  --rubric: #94321f;         /* rubrication red — links, ornaments, accents  */
+  --rule: #d9d3c1;           /* hairlines                                    */
+  --paper-recessed: #f5f1e4; /* code blocks, table stripes if ever needed    */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #191713;
+    --ink: #e5e0d2;
+    --ink-faded: #97917f;
+    --rubric: #d0755f;
+    --rule: #3b372e;
+    --paper-recessed: #211e18;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-faded: var(--ink-faded);
+  --color-rubric: var(--rubric);
+  --color-rule: var(--rule);
+  --color-paper-recessed: var(--paper-recessed);
+
+  --font-serif: var(--font-alegreya), "Alegreya", Georgia, "Times New Roman", serif;
+  --font-sc: var(--font-alegreya-sc), "Alegreya SC", var(--font-alegreya), serif;
+  --font-mono: var(--font-courier-prime), "Courier Prime", "Courier New", monospace;
+}
+
+/* ----------------------------------------------------------------------------
+   2 · PROPORTION  (EoTS 2.2 — "choose a basic leading that suits the
+   typeface, text and measure"; webtypography.net 2.2.1–2.2.2)
+
+   Everything vertical is a multiple of --baseline. Everything horizontal
+   derives from the measure. The scale uses simple book fractions
+   (7/8 · 1 · 9/8 · 5/4 · 3/2 · 2 · 5/2) rather than a decimal ramp.
+--------------------------------------------------------------------------- */
+:root {
+  --body-size: 1.25rem;      /* 20px — Alegreya is small on the body        */
+  --baseline: 1.75rem;       /* 28px leading → ratio 1.4 (EoTS 2.2.1)       */
+  --measure: 62ch;           /* 45–75 char ideal; 66 "ideal book" (EoTS 2.1)*/
+  --margin-w: 16.5ch;        /* the scholar's margin, à la Tufte            */
+  --gutter: 4ch;             /* between measure and margin                  */
+  --indent: 1.5em;           /* paragraph indent ≈ one lead (EoTS 2.3.2)    */
+  --rule-w: 1px;             /* hairline weight                             */
+
+  /* type scale, in rem, relative to the 20px body */
+  --size-caption: 1rem;         /* 16px — sidenotes, captions, folios       */
+  --size-small: 1.09375rem;     /* 17.5px = 7/8 body — asides, footer       */
+  --size-body: 1.25rem;         /* 20px                                     */
+  --size-h3: 1.40625rem;        /* 22.5px = 9/8 body — italic subheads      */
+  --size-h2: 1.25rem;           /* small caps carry rank, not size (EoTS 4) */
+  --size-title: 2.1875rem;      /* 35px = 7/4 body — article titles         */
+  --size-display: 3.125rem;     /* 50px = 5/2 body — the masthead           */
+  --leading-caption: 1.3125rem; /* 21px = ¾ baseline                        */
+}
+
+/* Full ensemble = measure + gutter + scholar's margin. The breakpoint at
+   which the margin exists must be computed in ROOT ch (≈ half rem). */
+@media (max-width: 480px) {
+  :root { --body-size: 1.1875rem; --baseline: 1.65625rem; }
+}
+
+/* ----------------------------------------------------------------------------
+   3 · THE PAGE
+--------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  /* EoTS 5.5 / webtypography 3.5: hang punctuation into the margin.
+     Progressive enhancement — Safari honors it, others ignore it. */
+  hanging-punctuation: first last;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--body-size);
+  line-height: var(--baseline);
+  font-weight: 400;
+  font-optical-sizing: auto;
+
+  /* The OpenType conscience of the whole site (EoTS ch. 3 & 5;
+     webtypography 3.2.2 ligatures, 3.2.5 old-style figures, 5.1.1 kerning) */
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The page column: wide enough for measure + margin when the viewport
+   allows, a single measure otherwise. */
+.page {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+@media (min-width: 71rem) {
+  .page.with-margin {
+    max-width: calc(var(--measure) + var(--gutter) + var(--margin-w));
+    /* Text block sits left-of-center; the margin balances it — the
+       asymmetric recto page of a book (EoTS ch. 8, page shapes). */
+  }
+}
+
+::selection {
+  background: color-mix(in oklab, var(--rubric) 22%, var(--paper));
+}
+
+/* ----------------------------------------------------------------------------
+   4 · TYPESET PROSE — everything inside an article body
+   Scoped under .typeset so app chrome (nav, forms, lists of posts)
+   keeps its own manners.
+--------------------------------------------------------------------------- */
+.typeset {
+  counter-reset: sidenote-counter;
+}
+
+.typeset > * { max-width: var(--measure); }
+
+/* — Paragraphs: book convention. No vertical gap between successive
+     paragraphs; an indent marks the new thought (EoTS 2.3.2). The first
+     paragraph after any heading, break or figure sits flush. */
+.typeset p {
+  margin: 0;
+  text-align: justify;
+  text-wrap: pretty;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  overflow-wrap: break-word;
+}
+.typeset p + p { text-indent: var(--indent); }
+.typeset h2 + p, .typeset h3 + p, .typeset h4 + p,
+.typeset hr + p, .typeset .section-break + p,
+.typeset blockquote + p.flush, .typeset figure + p.flush,
+.typeset p.flush { text-indent: 0; }
+
+/* Block spacing: one full baseline before and after displayed matter. */
+.typeset blockquote, .typeset figure, .typeset pre,
+.typeset ul, .typeset ol, .typeset table, .typeset .verse,
+.typeset .table-wrap {
+  margin-block: var(--baseline);
+}
+
+/* — Headings (EoTS ch. 4: "make the title page / headings quiet").
+     Rank is signalled by form — small caps, italic — not by shouting size. */
+.typeset h2 {
+  font-family: var(--font-sc);
+  font-size: var(--size-h2);
+  font-weight: 500;
+  line-height: var(--baseline);
+  letter-spacing: 0.14em; /* letterspace runs of small caps (EoTS 2.1.6) */
+  text-transform: lowercase; /* Alegreya SC lowercase = true small caps */
+  margin: calc(var(--baseline) * 2) 0 var(--baseline);
+}
+.typeset h3 {
+  font-size: var(--size-h3);
+  font-style: italic;
+  font-weight: 500;
+  line-height: var(--baseline);
+  margin: calc(var(--baseline) * 1.5) 0 calc(var(--baseline) * 0.5);
+}
+.typeset h4 {
+  font-family: var(--font-sc);
+  font-size: var(--size-caption);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  line-height: var(--baseline);
+  margin: var(--baseline) 0 0;
+}
+
+/* — Links: quiet ink, hairline underline; rubric only on approach.
+     (Butterick: "links should not look like Christmas lights.") */
+.typeset a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.045em;
+  text-decoration-color: color-mix(in oklab, var(--ink) 42%, var(--paper));
+  text-underline-offset: 0.14em;
+}
+.typeset a:hover {
+  color: var(--rubric);
+  text-decoration-color: currentColor;
+}
+
+/* — Emphasis: italic is emphasis enough (EoTS 4.3.1). Bold is reserved. */
+.typeset strong { font-weight: 700; }
+
+/* — Small caps & abbreviations (EoTS 3.2.2: "use true small caps").
+     Alegreya SC's lowercase IS its small caps, so we transform down. */
+.smallcaps, .typeset abbr {
+  font-family: var(--font-sc);
+  font-style: normal;
+  font-weight: 450;
+  text-transform: lowercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+.typeset abbr { cursor: help; }
+
+/* — The new thought: opening words of an opening paragraph set in
+     spaced small caps (Tufte's span.newthought; EoTS 4.1). */
+.newthought {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-size: 1.05em;
+}
+
+/* — Drop cap (versal), three lines deep. */
+.drop-cap::first-letter {
+  float: left;
+  font-size: calc(var(--baseline) * 3.05);
+  line-height: calc(var(--baseline) * 2.62);
+  font-weight: 500;
+  padding-right: 0.09em;
+  margin-top: 0.03em;
+  color: var(--rubric);
+}
+
+/* — Figures & numerals: old-style in prose (inherited), lining-tabular in
+     tables and code (EoTS 3.2; webtypography 3.2.5). Utility classes for
+     specimen work: */
+.lining   { font-variant-numeric: lining-nums; }
+.oldstyle { font-variant-numeric: oldstyle-nums; }
+.tabular  { font-variant-numeric: lining-nums tabular-nums; }
+.frac     { font-variant-numeric: diagonal-fractions; }
+.ordn     { font-variant-numeric: ordinal; }
+.dlig     { font-variant-ligatures: common-ligatures discretionary-ligatures contextual; }
+.noliga   { font-variant-ligatures: none; }
+
+/* ----------------------------------------------------------------------------
+   5 · THE SCHOLAR'S MARGIN — sidenotes & margin notes (tufte-css mechanics)
+   Numbered sidenotes replace footnotes (EoTS 6.1: notes belong beside the
+   text they serve). On narrow viewports they hide behind their number;
+   tapping the number reveals them inline. Pure CSS, no JS.
+--------------------------------------------------------------------------- */
+.sidenote, .marginnote {
+  float: right;
+  clear: right;
+  width: var(--margin-w);
+  margin-right: calc(-1 * (var(--margin-w) + var(--gutter)));
+  margin-top: 0.2rem;
+  margin-bottom: var(--leading-caption);
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  text-align: left;
+  text-indent: 0;
+  hyphens: none;
+  position: relative;
+}
+
+.sidenote-number { counter-increment: sidenote-counter; }
+
+.sidenote-number::after,
+.sidenote::before {
+  position: relative;
+  vertical-align: baseline;
+  color: var(--rubric);
+  font-feature-settings: "lnum" 1;
+}
+.sidenote-number::after {
+  content: counter(sidenote-counter);
+  font-size: 0.72em;
+  top: -0.45em;
+  left: 0.06em;
+}
+.sidenote::before {
+  content: counter(sidenote-counter) " ";
+  font-size: 0.8em;
+  top: -0.35em;
+}
+
+input.margin-toggle { display: none; }
+label.sidenote-number { display: inline-block; max-height: var(--baseline); cursor: default; }
+label.margin-toggle:not(.sidenote-number) { display: none; }
+
+/* Margin-note glyph (unnumbered notes) shown only on narrow screens */
+.marginnote-glyph { color: var(--rubric); }
+
+@media (max-width: 70.99rem) {
+  label.margin-toggle:not(.sidenote-number) { display: inline; cursor: pointer; }
+  label.sidenote-number { cursor: pointer; }
+  .sidenote, .marginnote { display: none; }
+  .margin-toggle:checked + .sidenote,
+  .margin-toggle:checked + .marginnote {
+    display: block;
+    float: none;
+    clear: both;
+    width: auto;
+    margin: calc(var(--baseline) / 2) 0 calc(var(--baseline) / 2) var(--indent);
+    padding-left: 1ch;
+    border-left: var(--rule-w) solid var(--rule);
+  }
+}
+
+/* Anything allowed to occupy the full ensemble (figures, tables, code) */
+@media (min-width: 71rem) {
+  .typeset .fullwidth { max-width: calc(var(--measure) + var(--gutter) + var(--margin-w)); }
+}
+
+/* ----------------------------------------------------------------------------
+   6 · DISPLAYED MATTER — quotations, epigraphs, verse, figures, rules
+--------------------------------------------------------------------------- */
+
+/* — Block quotations (EoTS 2.3.3): indented one indent-unit, slightly
+     smaller, with a small-caps attribution. Quiet; no giant quote marks. */
+.typeset blockquote {
+  margin-inline: var(--indent) 0;
+  font-size: var(--size-small);
+  line-height: var(--baseline);
+}
+.typeset blockquote p { text-align: left; text-indent: 0; }
+.typeset blockquote p + p { text-indent: var(--indent); }
+.quote-source {
+  display: block;
+  margin-top: calc(var(--baseline) / 2);
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  text-align: left;
+}
+.quote-source .qs-author {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  letter-spacing: 0.07em;
+  font-style: normal;
+}
+.quote-source .qs-work { font-style: italic; }
+
+/* — Epigraph: the chapter-opening voice. Italic, unindented, floated free
+     of the text block's justification. */
+.epigraph {
+  margin: calc(var(--baseline) * 2) 0 calc(var(--baseline) * 2) var(--indent);
+  font-style: italic;
+  font-size: var(--size-small);
+  line-height: var(--baseline);
+}
+.epigraph p { text-align: left; text-indent: 0; }
+.epigraph em, .epigraph cite { font-style: normal; }
+
+/* — Pull quote: the one deliberately loud element. Breaks the measure,
+     set large in italic, framed by hairlines, rubric hedera. */
+.pullquote {
+  margin: calc(var(--baseline) * 1.5) 0;
+  padding: var(--baseline) 0;
+  border-top: var(--rule-w) solid var(--rule);
+  border-bottom: var(--rule-w) solid var(--rule);
+  font-size: var(--size-h3);
+  line-height: var(--baseline);
+  font-style: italic;
+  text-align: center;
+}
+.pullquote p { text-align: center; text-indent: 0; }
+.pullquote::before {
+  content: "❧";
+  display: block;
+  color: var(--rubric);
+  font-style: normal;
+  font-size: var(--size-caption);
+  margin-bottom: calc(var(--baseline) / 2);
+}
+
+/* — Verse (EoTS 2.3.5): lines as the poet broke them, ragged right,
+     runovers hung by one indent. */
+.verse { font-size: var(--size-body); }
+.verse .verse-line {
+  display: block;
+  margin: 0;
+  padding-left: calc(var(--indent) * 2);
+  text-indent: calc(var(--indent) * -2);
+  text-align: left;
+  hyphens: none;
+}
+.verse .verse-stanza + .verse-stanza { display: block; margin-top: var(--baseline); }
+
+/* — Section break: a rest, marked by the hedera (❧), the oldest
+     typographic ornament in continuous use. */
+.section-break {
+  border: 0;
+  margin: calc(var(--baseline) * 1.5) 0;
+  text-align: center;
+  height: var(--baseline);
+  line-height: var(--baseline);
+}
+.section-break::after {
+  content: "❧";
+  color: var(--rubric);
+  font-size: var(--size-body);
+  letter-spacing: 1ch;
+}
+
+/* Plain rule variant */
+.typeset hr:not(.section-break) {
+  border: 0;
+  border-top: var(--rule-w) solid var(--rule);
+  width: calc(var(--indent) * 6);
+  margin: calc(var(--baseline) * 1.5) auto;
+}
+
+/* — Figures: image at the measure, caption in the scholar's margin. */
+.typeset figure { margin-inline: 0; }
+.typeset figure img { display: block; width: 100%; height: auto; }
+.typeset figcaption {
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  color: var(--ink-faded);
+  margin-top: calc(var(--baseline) / 2);
+}
+@media (min-width: 71rem) {
+  .typeset figure.margin-caption { position: relative; }
+  .typeset figure.margin-caption figcaption {
+    position: absolute;
+    top: 0;
+    right: calc(-1 * (var(--margin-w) + var(--gutter)));
+    width: var(--margin-w);
+    margin-top: 0;
+  }
+}
+.typeset figcaption .fig-author {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  letter-spacing: 0.06em;
+}
+.typeset figcaption .fig-work { font-style: italic; }
+
+/* ----------------------------------------------------------------------------
+   7 · LISTS, TABLES, CODE
+--------------------------------------------------------------------------- */
+.typeset ul, .typeset ol { padding-left: var(--indent); }
+.typeset li { margin: 0; }
+.typeset li + li { margin-top: 0; }
+.typeset ul { list-style: none; }
+.typeset ul > li::before {
+  content: "•";
+  display: inline-block;
+  width: var(--indent);
+  margin-left: calc(-1 * var(--indent));
+  color: var(--rubric);
+}
+.typeset ol { list-style: none; counter-reset: item; }
+.typeset ol > li::before {
+  counter-increment: item;
+  content: counter(item);
+  display: inline-block;
+  width: var(--indent);
+  margin-left: calc(-1 * var(--indent));
+  font-variant-numeric: oldstyle-nums;
+  color: var(--ink-faded);
+}
+
+/* — Tables (EoTS 3.2.3 tabular figures; Proportional Web's quiet head).
+     Rules above and below the head and at the foot; nothing vertical. */
+.table-wrap { overflow-x: auto; }
+.typeset table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--size-small);
+  line-height: var(--baseline);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.typeset th {
+  font-family: var(--font-sc);
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  font-size: var(--size-caption);
+  text-align: left;
+  border-top: var(--rule-w) solid var(--ink);
+  border-bottom: var(--rule-w) solid var(--rule);
+  padding: calc(var(--baseline) / 4) 2ch calc(var(--baseline) / 4) 0;
+}
+.typeset td {
+  padding: calc(var(--baseline) / 4) 2ch calc(var(--baseline) / 4) 0;
+  vertical-align: top;
+}
+.typeset tbody tr:last-child td { border-bottom: var(--rule-w) solid var(--ink); }
+.typeset th.num, .typeset td.num,
+.typeset th[align="right"], .typeset td[align="right"] { text-align: right; padding-right: 0; padding-left: 2ch; }
+.typeset caption {
+  caption-side: bottom;
+  text-align: left;
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  color: var(--ink-faded);
+  padding-top: calc(var(--baseline) / 2);
+}
+
+/* — Code: the machine voice. Courier Prime, sized to match Alegreya's
+     x-height register, lining figures, ligatures off (code is literal). */
+.typeset code, .typeset pre, .typeset kbd, .typeset samp {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.typeset code { font-size: 0.85em; letter-spacing: -0.01em; }
+.typeset pre {
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  padding: calc(var(--baseline) / 2) 0 calc(var(--baseline) / 2) var(--indent);
+  border-left: var(--rule-w) solid var(--rule);
+  overflow-x: auto;
+}
+.typeset pre code { font-size: inherit; letter-spacing: 0; }
+
+/* ----------------------------------------------------------------------------
+   8 · APP CHROME — masthead, navigation, article headers, footer, forms.
+   The chrome speaks in the same voice, one size down.
+--------------------------------------------------------------------------- */
+.masthead {
+  padding-top: calc(var(--baseline) * 1.5);
+  border-bottom: var(--rule-w) solid var(--ink);
+  position: relative;
+}
+.masthead::after { /* double rule, the classic newspaper/book device */
+  content: "";
+  display: block;
+  border-bottom: var(--rule-w) solid var(--ink);
+  margin-top: 3px;
+  margin-bottom: -4px;
+}
+.masthead-title {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-weight: 500;
+  font-size: var(--size-body);
+  letter-spacing: 0.22em;
+  margin: 0;
+  line-height: var(--baseline);
+}
+.masthead-title a { color: inherit; text-decoration: none; }
+.masthead-title a:hover { color: var(--rubric); }
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3ch;
+  padding: calc(var(--baseline) / 2) 0;
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-caption);
+  letter-spacing: 0.14em;
+}
+.site-nav a { color: var(--ink-faded); text-decoration: none; }
+.site-nav a:hover { color: var(--rubric); }
+.site-nav a[aria-current="page"] { color: var(--ink); }
+.site-nav a[aria-current="page"]::before { content: "❧ "; color: var(--rubric); letter-spacing: 0; }
+
+/* — Article opening: kicker, title, subtitle, byline. */
+.article-header { margin: calc(var(--baseline) * 2.5) 0 calc(var(--baseline) * 2); }
+.kicker {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-caption);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--rubric);
+  margin: 0 0 var(--baseline);
+  line-height: var(--baseline);
+}
+.article-title {
+  font-size: var(--size-title);
+  font-weight: 500;
+  line-height: calc(var(--baseline) * 1.5);
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.005em;
+}
+.article-subtitle {
+  font-size: var(--size-h3);
+  font-style: italic;
+  font-weight: 400;
+  line-height: var(--baseline);
+  margin: calc(var(--baseline) / 2) 0 0;
+  color: var(--ink-faded);
+  text-wrap: balance;
+}
+.byline {
+  margin-top: var(--baseline);
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  color: var(--ink-faded);
+}
+.byline .byline-name {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+/* — Index (table-of-contents) entries on home & archive pages */
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-entry {
+  display: block;
+  padding: var(--baseline) 0;
+  border-bottom: var(--rule-w) solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+.toc-entry:hover .toc-title { color: var(--rubric); }
+.toc-meta {
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-caption);
+  letter-spacing: 0.12em;
+  color: var(--ink-faded);
+  display: flex;
+  justify-content: space-between;
+  gap: 2ch;
+  line-height: var(--leading-caption);
+}
+.toc-title {
+  font-size: var(--size-h3);
+  font-weight: 500;
+  line-height: var(--baseline);
+  margin: calc(var(--baseline) / 4) 0 0;
+}
+.toc-description {
+  font-style: italic;
+  color: var(--ink-faded);
+  margin: calc(var(--baseline) / 4) 0 0;
+  line-height: var(--baseline);
+}
+
+/* — Footer */
+.colophon-footer {
+  margin-top: calc(var(--baseline) * 3);
+  padding: calc(var(--baseline) * 1.5) 0 calc(var(--baseline) * 2);
+  border-top: var(--rule-w) solid var(--ink);
+  font-size: var(--size-caption);
+  line-height: var(--leading-caption);
+  color: var(--ink-faded);
+  text-align: center;
+}
+.colophon-footer .hedera { color: var(--rubric); display: block; margin-bottom: calc(var(--baseline) / 2); }
+.colophon-footer a { color: inherit; }
+.colophon-footer a:hover { color: var(--rubric); }
+
+/* — Forms (contact page): a form can be set like a book page too. */
+.typeset-form { max-width: var(--measure); }
+.typeset-form label {
+  display: block;
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-caption);
+  letter-spacing: 0.12em;
+  color: var(--ink-faded);
+  margin-top: var(--baseline);
+  line-height: var(--leading-caption);
+}
+.typeset-form input, .typeset-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: calc(var(--baseline) / 4);
+  padding: calc(var(--baseline) / 4) 0;
+  font-family: var(--font-serif);
+  font-size: var(--size-body);
+  line-height: var(--baseline);
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: var(--rule-w) solid var(--rule);
+  border-radius: 0;
+  outline: none;
+}
+.typeset-form input:focus, .typeset-form textarea:focus {
+  border-bottom-color: var(--rubric);
+}
+.typeset-form button {
+  margin-top: calc(var(--baseline) * 1.5);
+  font-family: var(--font-sc);
+  text-transform: lowercase;
+  font-size: var(--size-body);
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  background: transparent;
+  border: var(--rule-w) solid var(--ink);
+  padding: calc(var(--baseline) / 4) 3ch;
+  cursor: pointer;
+}
+.typeset-form button:hover { color: var(--rubric); border-color: var(--rubric); }
+
+/* ----------------------------------------------------------------------------
+   9 · PRINT — the design returns home.
+--------------------------------------------------------------------------- */
+@media print {
+  :root { --paper: #fff; --ink: #000; }
+  .site-nav, .colophon-footer, label.margin-toggle { display: none !important; }
+  .page { max-width: none; padding: 0; }
+  .typeset a { text-decoration: none; }
+}

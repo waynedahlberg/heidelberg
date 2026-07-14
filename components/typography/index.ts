@@ -1,0 +1,11 @@
+export { Sidenote } from "./Sidenote";
+export { MarginNote } from "./MarginNote";
+export { Epigraph } from "./Epigraph";
+export { QuoteSource } from "./QuoteSource";
+export { PullQuote } from "./PullQuote";
+export { Blockquote } from "./Blockquote";
+export { Newthought } from "./Newthought";
+export { SectionBreak } from "./SectionBreak";
+export { Verse } from "./Verse";
+export { Figure } from "./Figure";
+export { SmallCaps } from "./SmallCaps";

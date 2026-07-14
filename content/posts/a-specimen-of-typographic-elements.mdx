@@ -1,0 +1,114 @@
+---
+title: "A Specimen of Typographic Elements"
+subtitle: "Every voice this system can speak, demonstrated on one page"
+kicker: "Specimen"
+author: "The Editors"
+date: "1893-01-15"
+description: "The complete repertoire — sidenotes, small caps, figures, verse, quotations, ornaments — exercised with nineteenth-century texts."
+order: 1
+---
+
+<Epigraph author="Robert Bringhurst" work="The Elements of Typographic Style" year="1992">
+  Typography exists to honor content.
+</Epigraph>
+
+<p className="flush drop-cap">This page is a type specimen in the old sense: a single sheet on which the printer shows every voice the shop can set. What follows exercises the entire repertoire of this design system — the two faces and their italics, the true small caps, both kinds of figures, the notes in the scholar’s margin, the quotations, the verse, the ornaments — using texts from the nineteenth century as the matter. If a feature is not on this page, the system does not have it.</p>
+
+## The opening of a section
+
+<p className="flush"><Newthought>A new section opens</Newthought> with a few words in letterspaced small caps, the device Tufte borrowed from classical book design. The paragraph that follows an opening sits flush left; every paragraph after it announces itself with an indent rather than a skipped line, as book paragraphs have done for five centuries.</p>
+
+This is such an indented paragraph. Notice that there is no vertical gap above it — the indent alone marks the new thought, and the page keeps its even color. The text is justified and hyphenated by the browser, and if you are reading in Safari the opening quotation marks hang into the margin.
+
+## Sidenotes and marginalia
+
+The first tool of the scholar’s margin is the numbered sidenote.<Sidenote>Like this one. Sidenotes replace footnotes entirely: the note stands beside the passage it serves, where the eye can reach it without losing the line. On a narrow screen, tap the number to unfold it.</Sidenote> Numbering is automatic, by CSS counter, in rubric red so the reference is findable on a gray page of text.
+
+There are also unnumbered margin notes for glosses that need no anchor.<MarginNote>A margin note carries commentary, dates, sources — the conversation a careful reader has with a book. On narrow screens it hides behind the ⊕ symbol.</MarginNote> Melville himself was an inveterate margin-writer; his surviving copy of Shakespeare is thick with pencil.
+
+## Small capitals and abbreviations
+
+True small caps — from the companion face Alegreya SC, never synthesized — serve for abbreviations like <abbr>HTML</abbr>, <abbr>CSS</abbr>, and <abbr>NASA</abbr>, for times such as 9 <abbr>a.m.</abbr>, and for names when the text calls for quiet distinction: <SmallCaps>Ishmael</SmallCaps>, <SmallCaps>Queequeg</SmallCaps>, <SmallCaps>Ahab</SmallCaps>. Runs of capitals in text size are too loud; small caps say the same thing at conversational volume.
+
+## Figures, fractions, and ordinals
+
+In running prose the figures are old-style — they have ascenders and descenders and sit in the line like words: the *Pequod* sailed in 1841, carried a crew of 30, and returned (in one sense) in 1851. Lining figures, <span className="lining">1841, 30, 1851</span>, stand at attention for tables and totals. Tabular spacing, <span className="tabular">11,111 versus 20,802</span>, makes columns add up visually. The system also sets true fractions — <span className="frac">1/2, 3/4, 19/64</span> — and ordinals: the <span className="ordn">4th</span> of July, the <span className="ordn">19th</span> century.
+
+## Ligatures
+
+Alegreya supplies the standard ligatures wherever f meets i or l — final, affliction, offend, shelfful — and, by request, the discretionary ones: <span className="dlig">The suffering officer offered a fine placard</span>. Compare the same words with all ligatures suppressed: <span className="noliga">The suffering officer offered a fine placard</span>. Code, being literal, always goes without: `difficult_flag = office(1)`.
+
+## Quotations
+
+A short quotation runs on in the text, fenced with quotation marks, as when Thoreau declares that “the mass of men lead lives of quiet desperation.” Anything longer is displayed:
+
+<Blockquote author="Henry David Thoreau" work="Walden" year="1854">
+  I went to the woods because I wished to live deliberately, to front only the essential facts of life, and see if I could not learn what it had to teach, and not, when I came to die, discover that I had not lived.
+</Blockquote>
+
+And once — at most once — an essay may raise its voice with a pull quote:
+
+<PullQuote>
+  <p>It is not down in any map; true places never are.</p>
+</PullQuote>
+
+<p className="flush">The pull quote is the loudest permitted sound. It breaks the measure, takes the italic, and is framed by the page’s only decorative rules.</p>
+
+## Verse
+
+Poetry keeps the poet’s line breaks, ragged right, with runover lines hung by a double indent:
+
+<Verse
+  text={`O Captain! my Captain! our fearful trip is done,
+The ship has weather’d every rack, the prize we sought is won,
+The port is near, the bells I hear, the people all exulting,
+While follow eyes the steady keel, the vessel grim and daring;
+
+But O heart! heart! heart!
+O the bleeding drops of red,
+Where on the deck my Captain lies,
+Fallen cold and dead.`}
+  source={<QuoteSource author="Walt Whitman" work="Sequel to Drum-Taps" year="1865" />}
+/>
+
+## Tables
+
+Tabular matter takes lining, tabular figures; the head is set in small caps between a rule of ink and a hairline; nothing vertical interrupts the rows. Thoreau’s famous accounting of his house at Walden Pond:
+
+| Material | Cost |
+| --- | ---: |
+| Boards | $8.03½ |
+| Refuse shingles for roof and sides | $4.00 |
+| Laths | $1.25 |
+| Two second-hand windows with glass | $2.43 |
+| One thousand old brick | $4.00 |
+| Two casks of lime | $2.40 |
+| Hair | $0.31 |
+| Mantle-tree iron | $0.15 |
+| Nails | $3.90 |
+| Hinges and screws | $0.14 |
+| Latch | $0.10 |
+| Chalk | $0.01 |
+| Transportation | $1.40 |
+| **In all** | **$28.12½** |
+
+## The machine voice
+
+Code is set in Courier Prime, the typewriter voice, with ligatures off and lining figures on — inline as `hyphenate-limit-chars: 6 3 3`, or displayed:
+
+```
+.typeset p {
+  text-align: justify;
+  text-wrap: pretty;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+}
+```
+
+## Ornaments and rests
+
+A rest between movements is marked by the hedera, the ivy-leaf ornament the Romans carved and Aldus printed:
+
+<SectionBreak />
+
+<p className="flush">And that is the whole repertoire. One family of type, one measure, one baseline, two dozen restrained devices — everything else on this site is only these elements, recombined in service of the text.</p>
