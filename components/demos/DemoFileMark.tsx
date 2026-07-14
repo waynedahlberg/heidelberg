@@ -15,9 +15,9 @@ export function DemoFileMark() {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
   <rect width="160" height="160" fill="#f5f1e4"/>
   <rect x="12" y="12" width="136" height="136" fill="none" stroke="#94321f" stroke-width="2"/>
-  <text x="80" y="88" text-anchor="middle" fill="#23201a" font-family="Georgia, serif" font-size="22">Aldine</text>
+  <text x="80" y="88" text-anchor="middle" fill="#23201a" font-family="Georgia, serif" font-size="18">Heidelberg</text>
 </svg>`;
-    setFile(new File([svg], "aldine-mark.svg", { type: "image/svg+xml" }));
+    setFile(new File([svg], "heidelberg-mark.svg", { type: "image/svg+xml" }));
   }, []);
 
   return (

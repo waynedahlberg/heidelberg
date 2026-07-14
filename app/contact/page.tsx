@@ -5,7 +5,7 @@ import { Page } from "@/components/Page";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Write to the editors of Aldine.",
+  description: "Write to the editors of Heidelberg.",
 };
 
 export default function ContactPage() {

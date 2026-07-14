@@ -6,7 +6,7 @@ import { Newthought, SectionBreak, Sidenote } from "@/components/typography";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "What Aldine is, and why it is set the way it is.",
+  description: "What Heidelberg is, and why it is set the way it is.",
 };
 
 export default function AboutPage() {
@@ -25,18 +25,21 @@ export default function AboutPage() {
           </header>
           <div className="typeset">
             <p className="flush drop-cap">
-              <Newthought>Aldine takes its name</Newthought> from the press of
-              Aldus Manutius, the Venetian printer who, five centuries before
-              anyone owned a screen, understood that a book is an instrument
-              for reading and that everything in it — the type, the measure,
-              the margins, the ink — should serve the reader’s eye and
-              nothing else.
+              <Newthought>Heidelberg takes its name</Newthought> from the
+              university city on the Neckar — a place where scholarship and
+              the printed book have shared a desk for centuries, and where
+              the craft of the press still means something more than a
+              machine.
               <Sidenote>
-                The Aldine Press, Venice, fl. 1494–1597. Aldus commissioned
-                the first italic type from Francesco Griffo and printed the
-                first portable classics, the ancestors of every paperback.
+                Heidelberg’s university, founded 1386, is among Europe’s
+                oldest; the city’s name also travels with Heidelberger
+                Druckmaschinen, the pressworks that carried letterpress and
+                offset into the industrial age.
               </Sidenote>{" "}
-              This site carries that conviction onto the web.
+              This site carries that conviction onto the web: a book is an
+              instrument for reading, and everything in it — the type, the
+              measure, the margins, the ink — should serve the reader’s eye
+              and nothing else.
             </p>
             <p>
               It is a working demonstration of Robert Bringhurst’s{" "}

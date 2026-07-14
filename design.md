@@ -1,4 +1,4 @@
-# design.md — The Aldine Typographic System
+# design.md — The Heidelberg Typographic System
 
 > A portable specification for building web projects in the tradition of
 > Robert Bringhurst's *The Elements of Typographic Style*, with a Fluid
@@ -215,7 +215,7 @@ menus, scroll regions, toggles — the interactive chrome follows
 legible, never decorative. The book voice (Alegreya, measure, rubric) stays
 primary; FF supplies surfaces, scroll affordances, and motion vocabulary.
 Components are installed from the FF shadcn registry into `components/ui/`;
-semantic tokens are remapped to Aldine ink & paper in `globals.css`.
+semantic tokens are remapped to Heidelberg ink & paper in `globals.css`.
 
 ### 6.1 Surfaces (elevation)
 
@@ -283,10 +283,10 @@ keep nested chrome honest.
 
 Installed from the [FF registry](https://www.fluidfunctionalism.com) via
 shadcn. All of them share surfaces + springs; none should invent local
-timing, elevation, or a second accent. Aldine defaults: **rounded** shape,
+timing, elevation, or a second accent. Heidelberg defaults: **rounded** shape,
 rubric focus ring, ink/paper semantics.
 
-| Component | File | Role in Aldine |
+| Component | File | Role in Heidelberg |
 | --- | --- | --- |
 | **Button** | `button.tsx` | Primary actions; loading spinner replaces the label (not overlays it) |
 | **Badge** | `badge.tsx` | Quiet status chips (manuscript state, etc.) |
@@ -316,7 +316,7 @@ rubric focus ring, ink/paper semantics.
 Supporting pieces (not usually authored alone): `menu-item` (dropdown rows),
 shape / surface / icon context from `lib/`.
 
-**Aldine remapping checklist** after any `shadcn add` from the registry:
+**Heidelberg remapping checklist** after any `shadcn add` from the registry:
 
 1. Semantic colors still point at `--ink` / `--paper` / `--rubric` (not cool gray).
 2. Focus ring is `--focus-ring: var(--rubric)`.

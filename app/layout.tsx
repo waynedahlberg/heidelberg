@@ -28,7 +28,7 @@ const courierPrime = Courier_Prime({
   display: "swap",
 });
 
-export const metadata: Metadata = { title: "Aldine" };
+export const metadata: Metadata = { title: "Heidelberg" };
 
 export default function RootLayout({
   children,

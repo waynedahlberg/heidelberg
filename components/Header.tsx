@@ -47,7 +47,7 @@ export function Header({ current }: { current?: string }) {
       <div className="masthead">
         <div className="masthead-bar">
           <p className="masthead-title">
-            <Link href="/">Aldine</Link>
+            <Link href="/">Heidelberg</Link>
           </p>
           <button
             ref={toggleRef}

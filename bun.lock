@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "aldine",
+      "name": "heidelberg",
       "dependencies": {
         "@base-ui/react": "^1.6.0",
         "@radix-ui/react-accordion": "^1.2.16",

@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import type { ReactNode } from "react";
 
 /**
- * Fluid Functionalism providers, shaped for Aldine:
+ * Fluid Functionalism providers, shaped for Heidelberg:
  * — surface-1 as the page substrate so Elevated / Dialog / Dropdown lift
  *   relative to the book without props
  * — MotionConfig reducedMotion="user" so OS reduce-motion drops transforms

@@ -1,4 +1,15 @@
-# Aldine
+# Heidelberg
+
+<p align="center">
+  <img
+    src="public/images/hero.webp"
+    alt="Heidelberg home — masthead, opening sentence, and table of contents"
+    width="920"
+  />
+</p>
+<p align="center">
+  <em>The opening leaf — masthead, Bringhurst’s sentence, and the contents list on warm paper.</em>
+</p>
 
 A Next.js + TypeScript blog starter built as a working demonstration of
 Robert Bringhurst's *The Elements of Typographic Style*, applied to the
@@ -10,7 +21,7 @@ Interactive chrome follows
 [Fluid Functionalism](https://www.fluidfunctionalism.com) as a **behavioral
 layer**: nested surfaces, scroll-fade, three shared springs, and the full FF
 component kit (buttons, dialogs, menus, tabs, sliders, tables, inputs, chat /
-thinking UI, …), remapped to Aldine ink and paper so controls stay quiet
+thinking UI, …), remapped to Heidelberg ink and paper so controls stay quiet
 inside the book. See `design.md` §6.
 
 Sample content is drawn from nineteenth-century texts — Melville, Thoreau,
@@ -102,5 +113,5 @@ To add or refresh an FF component:
 npx shadcn@latest add https://www.fluidfunctionalism.com/r/<name>.json
 ```
 
-Then re-check Aldine semantic mapping in `globals.css` (and spinner
+Then re-check Heidelberg semantic mapping in `globals.css` (and spinner
 keyframes if the button was overwritten).

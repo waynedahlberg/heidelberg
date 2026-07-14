@@ -1,6 +1,6 @@
 # The Elements of Typographic Style, Applied to This Project
 
-*A summary of the principles, rules, and practices behind the Aldine system —
+*A summary of the principles, rules, and practices behind the Heidelberg system —
 drawn from Robert Bringhurst and the others who have carried his method onto
 the screen. Where `design.md` is the specification, this is the reasoning:
 why each rule exists, whom it comes from, and how faithfully the web can keep
@@ -69,7 +69,7 @@ typographic authority: a behavioral one. When the page must also act —
 menus, dialogs, scroll regions, toggles — FF supplies the vocabulary for
 making state changes legible: nested surfaces, honest scroll affordances,
 and three shared spring speeds. This project treats FF as a *layer under
-the chrome*, remapped to Aldine ink and paper, never as a second visual
+the chrome*, remapped to Heidelberg ink and paper, never as a second visual
 identity. See `design.md` §6.
 
 ---
@@ -231,7 +231,7 @@ is the press. The book is still the point.
 
 ## VI · Two layers, one page
 
-Aldine is easiest to keep coherent when you name the layers:
+Heidelberg is easiest to keep coherent when you name the layers:
 
 | Layer | Job | Source of truth |
 | --- | --- | --- |
@@ -246,7 +246,7 @@ The FF **component kit** (Button, Dialog, Dropdown, Select, Accordion, Tabs,
 Slider, Table, ScrollArea, Switch, Radio/Checkbox groups, inputs, chat /
 ask-questions, thinking indicators, color picker, file thumbnail,
 mobile drawer, …) is not a second design system. It is one registry family
-that already speaks surfaces and springs; Aldine only remaps tokens and
+that already speaks surfaces and springs; Heidelberg only remaps tokens and
 hosts specimens in literary context. Full inventory and demo → essay map:
 `design.md` §6.5–§6.6. Specimens should feel like tools inside the book,
 not a dashboard pasted into a chapter.
