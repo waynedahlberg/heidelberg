@@ -36,6 +36,8 @@ import {
   DemoSegmentedTabs,
   DemoThinkingSteps,
   DemoFileMark,
+  DemoSurfaces,
+  DemoMotionSprings,
 } from "@/components/demos";
 
 /**
@@ -85,4 +87,6 @@ export const mdxComponents: MDXComponents = {
   DemoSegmentedTabs,
   DemoThinkingSteps,
   DemoFileMark,
+  DemoSurfaces,
+  DemoMotionSprings,
 };

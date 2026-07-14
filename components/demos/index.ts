@@ -20,3 +20,5 @@ export { DemoScrollCatalogue } from "./DemoScrollCatalogue";
 export { DemoSegmentedTabs } from "./DemoSegmentedTabs";
 export { DemoThinkingSteps } from "./DemoThinkingSteps";
 export { DemoFileMark } from "./DemoFileMark";
+export { DemoSurfaces } from "./DemoSurfaces";
+export { DemoMotionSprings } from "./DemoMotionSprings";

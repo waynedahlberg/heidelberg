@@ -43,10 +43,16 @@ export default function AboutPage() {
               <em>The Elements of Typographic Style</em> applied to a modern
               stack: one versatile typeface family, a measure of about
               sixty-five characters, a fixed baseline rhythm, true small
-              caps, old-style figures, and a scholar’s margin for notes. The
-              essays are drawn from nineteenth-century texts — Melville,
-              Thoreau, Darwin, Whitman — because prose of that quality asks
-              for, and rewards, careful setting.
+              caps, old-style figures, and a scholar’s margin for notes.
+              Where the page must also act — menus, dialogs, scroll — a
+              quieter behavioral layer from{" "}
+              <a href="https://www.fluidfunctionalism.com">
+                Fluid Functionalism
+              </a>{" "}
+              keeps interactive state legible without stealing the book’s
+              voice. The essays are drawn from nineteenth-century texts —
+              Melville, Thoreau, Darwin, Whitman — because prose of that
+              quality asks for, and rewards, careful setting.
             </p>
             <SectionBreak />
             <p className="flush">

@@ -64,6 +64,14 @@ the browser. The specific palette of this project (Alegreya + Alegreya SC +
 Courier Prime, rhythm expressed in `rem`) is built directly on Wickström's
 example.
 
+**Mickaël — *Fluid Functionalism* (fluidfunctionalism.com).** Not a
+typographic authority: a behavioral one. When the page must also act —
+menus, dialogs, scroll regions, toggles — FF supplies the vocabulary for
+making state changes legible: nested surfaces, honest scroll affordances,
+and three shared spring speeds. This project treats FF as a *layer under
+the chrome*, remapped to Aldine ink and paper, never as a second visual
+identity. See `design.md` §6.
+
 ---
 
 ## III · The rules, and how the web keeps them
@@ -199,19 +207,53 @@ principle of omission. Bringhurst:
 Which is to say: the typographer's taste is expressed mostly in what is left
 out. This is why the system permits *at most one pull quote* per essay and
 *at most one drop cap* (the opener); why links are quiet ink until the cursor
-approaches; why there are no animations, no scroll effects, no gradients, no
-second accent color. Each of these would be a small theft of the reader's
-attention from the text, and the whole method is a refusal of that theft.
+approaches; why there are no decorative entrance animations, no parallax, no
+gradients-as-ornament, no second accent color. Each of these would be a small
+theft of the reader's attention from the text, and the whole method is a
+refusal of that theft.
+
+**Functional motion is not that theft.** A sidenote that unfolds so the
+reader sees where the gloss came from; a dialog that settles so the modal
+state is obvious; a scrollbar that admits there is more below — these make
+state readable. They are held to the same standard as type: if the motion
+does not clarify, it is left out. Fluid Functionalism's three springs and
+faster exits exist so that clarity stays consistent; nothing invents its
+own tempo.
 
 Applied to a React codebase, the discipline inverts the usual instinct. The
-components here exist to *enforce* craft, not to add interactivity: `<Sidenote>`
-so the margin mechanics are never wrong, `<Verse>` so runovers always hang,
-`next/font` so the real OpenType features always ship. The framework is the
-press. The book is still the point.
+components here exist to *enforce* craft: `<Sidenote>` so the margin
+mechanics are never wrong, `<Verse>` so runovers always hang, `next/font`
+so the real OpenType features always ship, `SurfaceProvider` / `Elevated`
+so overlays lift honestly, `lib/springs` so timing is shared. The framework
+is the press. The book is still the point.
 
 ---
 
-## VI · Further reading, in order of usefulness
+## VI · Two layers, one page
+
+Aldine is easiest to keep coherent when you name the layers:
+
+| Layer | Job | Source of truth |
+| --- | --- | --- |
+| **Reading** | Honor the text — measure, rhythm, faces, ink/paper, notes | Bringhurst et al.; `globals.css` typographic tokens; `components/typography/` |
+| **Behavioral** | Honor interactive state — elevation, scroll, motion, controls | Fluid Functionalism; `lib/springs`, `lib/elevated`, `lib/surface-*`; `components/ui/` |
+
+The reading layer never borrows FF's default cool grays or pill chrome. The
+behavioral layer never invents a second measure, a second accent, or a
+one-off animation curve.
+
+The FF **component kit** (Button, Dialog, Dropdown, Select, Accordion, Tabs,
+Slider, Table, ScrollArea, Switch, Radio/Checkbox groups, inputs, chat /
+ask-questions, thinking indicators, color picker, file thumbnail,
+mobile drawer, …) is not a second design system. It is one registry family
+that already speaks surfaces and springs; Aldine only remaps tokens and
+hosts specimens in literary context. Full inventory and demo → essay map:
+`design.md` §6.5–§6.6. Specimens should feel like tools inside the book,
+not a dashboard pasted into a chapter.
+
+---
+
+## VII · Further reading, in order of usefulness
 
 1. Robert Bringhurst, *The Elements of Typographic Style*, v4.3 — read it
    once through, then keep it as a reference.
@@ -232,3 +274,9 @@ press. The book is still the point.
 9. Jason Santa Maria, *On Web Typography* (A Book Apart, 2014).
 10. Ellen Lupton, *Thinking with Type* (2nd ed., 2010) — the best illustrated
     introduction to the vocabulary.
+11. [Fluid Functionalism](https://www.fluidfunctionalism.com) — surfaces,
+    scrollbars, and motion as a behavioral system for interactive chrome;
+    see especially
+    [Surfaces](https://www.fluidfunctionalism.com/docs/surfaces),
+    [Scrollbars](https://www.fluidfunctionalism.com/docs/scrollbars), and
+    [Motion](https://www.fluidfunctionalism.com/docs/motion).

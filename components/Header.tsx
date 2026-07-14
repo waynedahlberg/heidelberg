@@ -2,7 +2,7 @@
 
 import { useMediaQuery, PHONE_NAV_QUERY } from "@/hooks/useMediaQuery";
 import { quietTransitionFast } from "@/lib/motion";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";

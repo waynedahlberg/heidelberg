@@ -1,12 +1,14 @@
 # design.md — The Aldine Typographic System
 
 > A portable specification for building web projects in the tradition of
-> Robert Bringhurst's *The Elements of Typographic Style*. Copy this file
-> into a new project and you have the whole system in one page: the tokens,
-> the rules, and the recipes. Everything below is implemented in
-> `app/globals.css`; this document explains what each decision is and why,
-> so it can be reproduced anywhere — a different framework, a plain HTML
-> page, a design tool.
+> Robert Bringhurst's *The Elements of Typographic Style*, with a Fluid
+> Functionalism behavioral layer for interactive chrome. Copy this file into
+> a new project and you have the whole system in one page: the tokens, the
+> rules, and the recipes. Typography lives in `app/globals.css`; surfaces,
+> springs, and UI primitives live beside it in `lib/` and `components/ui/`.
+> This document explains what each decision is and why, so it can be
+> reproduced anywhere — a different framework, a plain HTML page, a design
+> tool.
 
 ---
 
@@ -19,8 +21,11 @@ multiple of one **baseline** unit (28px); **old-style figures** in prose and
 **lining/tabular figures** in tables; **true small caps** for headings,
 names, and abbreviations; **justified, hyphenated** body text with book
 paragraph indents; ink on warm paper plus **one rubric red** used sparingly
-for wayfinding; and a **scholar's margin** for sidenotes. Nothing is
-decoration. Every rule cites Bringhurst, Rutter, Tufte, or Butterick.
+for wayfinding; and a **scholar's margin** for sidenotes. Interactive chrome
+adds a **Fluid Functionalism** behavioral layer — nested surfaces, scroll
+affordance, three shared springs — remapped to the same ink and paper. Nothing
+is decoration. Typographic rules cite Bringhurst, Rutter, Tufte, or Butterick;
+behavioral rules cite Fluid Functionalism.
 
 ---
 
@@ -41,7 +46,10 @@ whole design scales coherently.
 ```
 
 Dark mode is a single `@media (prefers-color-scheme: dark)` override of the
-same six variables — never a separate stylesheet.
+same six variables — never a separate stylesheet. The interactive surface
+ladder (see §6) rides the same switch: light mode flattens to paper and lets
+**shadow** carry elevation; dark mode climbs a warm additive ladder over
+`--paper`.
 
 ### 1.2 Proportion
 
@@ -199,30 +207,199 @@ In a non-React project, the CSS classes alone reproduce them.
 
 ---
 
-## 6 · Where modern React helps — without overshadowing
+## 6 · Fluid Functionalism — the behavioral layer
+
+Typography is the reading layer. When the page must also *act* — dialogs,
+menus, scroll regions, toggles — the interactive chrome follows
+[Fluid Functionalism](https://www.fluidfunctionalism.com): state made
+legible, never decorative. The book voice (Alegreya, measure, rubric) stays
+primary; FF supplies surfaces, scroll affordances, and motion vocabulary.
+Components are installed from the FF shadcn registry into `components/ui/`;
+semantic tokens are remapped to Aldine ink & paper in `globals.css`.
+
+### 6.1 Surfaces (elevation)
+
+Eight surface levels that nest. Each container knows its own level and tells
+whatever opens inside — a dropdown on the page and the same dropdown inside
+a dialog both land at the right depth without props between them.
+
+| Piece | Role |
+| --- | --- |
+| `--surface-1` … `--surface-8` + `--shadow-1` … `--shadow-8` | bg/shadow pairs (Tailwind: `bg-surface-*`, `shadow-surface-*`) |
+| `SurfaceProvider` | React context for the current substrate (root = `1`) |
+| `Elevated` (`lib/elevated.tsx`) | Wrap a panel: `offset` steps above substrate; optional fixed `shadowLevel` |
+
+Conventional offsets: **2** for dropdown / popover / select; **4** for
+dialog / modal. Light mode: surfaces flatten to `--paper` early — **shadow
+alone** carries elevation. Dark mode: progressively lighter warm sheets over
+the floor, with inset-highlight shadow recipes.
+
+```tsx
+// Root (components/UiProviders.tsx)
+<SurfaceProvider value={1}>{children}</SurfaceProvider>
+
+// Nested lift — background climbs; popover shadow can stay fixed
+<Elevated offset={2} shadowLevel={3}>{/* menu */}</Elevated>
+```
+
+### 6.2 Scrollbars
+
+`ScrollArea` (`components/ui/scroll-area.tsx`): a quiet thumb that widens on
+hover; native overflow on touch-primary devices. Pair with the vendored CSS
+utilities in `globals.css`:
+
+- `scroll-fade` — vertical edge dissolve (scroll-driven where supported)
+- `scroll-fade-x` — horizontal variant
+
+```tsx
+<ScrollArea className="max-h-40" viewportClassName="scroll-fade">
+  …
+</ScrollArea>
+```
+
+### 6.3 Motion
+
+Three springs in `lib/springs.ts` — nothing invents its own timing:
+
+| Tier | Enter | Exit | Use for |
+| --- | --- | --- | --- |
+| `spring.fast` | 0.08s | 0.06s | hover, fades, small toggles |
+| `spring.moderate` | 0.16s · bounce 0 | 0.12s | dropdowns, tabs, drawers |
+| `spring.slow` | 0.24s · bounce 0.12 | 0.16s | dialogs, thinking steps |
+
+Exits are always **one tier quicker** than entrances. The app tree wraps
+`<MotionConfig reducedMotion="user">` so OS reduce-motion drops transforms
+and keeps opacity fades. Typographic reveals (sidenotes, phone nav) use the
+same tokens via `lib/motion.ts`.
+
+### 6.4 Providers & shape
+
+`UiProviders` composes, in order: `MotionConfig` → `SurfaceProvider` →
+`ShapeProvider` (default **rounded**, not pill) → `TooltipProvider`. Shape
+keeps interactive specimens quiet inside the book; elevation and springs
+keep nested chrome honest.
+
+### 6.5 Component kit (`components/ui/`)
+
+Installed from the [FF registry](https://www.fluidfunctionalism.com) via
+shadcn. All of them share surfaces + springs; none should invent local
+timing, elevation, or a second accent. Aldine defaults: **rounded** shape,
+rubric focus ring, ink/paper semantics.
+
+| Component | File | Role in Aldine |
+| --- | --- | --- |
+| **Button** | `button.tsx` | Primary actions; loading spinner replaces the label (not overlays it) |
+| **Badge** | `badge.tsx` | Quiet status chips (manuscript state, etc.) |
+| **Tooltip** | `tooltip.tsx` | Short gloss when the margin cannot hold a note |
+| **Switch** | `switch.tsx` | Binary preference; thumb uses `spring.moderate` |
+| **Slider** / **SliderComfortable** | `slider.tsx` | Continuous / stepped values — prefer Comfortable in essays |
+| **RadioGroup** / **RadioItem** | `radio-group.tsx` | Single choice among peers |
+| **CheckboxGroup** / **CheckboxItem** | `checkbox-group.tsx` | Multi-select with proximity hover |
+| **Select** | `select.tsx` | Compact menu of options; elevates via surface context |
+| **Dropdown** + **MenuItem** | `dropdown.tsx`, `menu-item.tsx` | Action / check menus; fixed shadow weight when nested |
+| **Dialog** | `dialog.tsx` | Modal sheet at substrate +4 |
+| **Accordion** | `accordion.tsx` | Expanding sections (rules, glosses) |
+| **Tabs** / **TabsSubtle** | `tabs.tsx`, `tabs-subtle.tsx` | Segmented vs understated tab chrome |
+| **Table** | `table.tsx` | Interactive rows; lining figures still apply via `.typeset` |
+| **ScrollArea** | `scroll-area.tsx` | Clipped lists; pair with `scroll-fade` / `scroll-fade-x` |
+| **MobileDrawer** | `mobile-drawer.tsx` | Sheet from the edge when the measure is too narrow for nav |
+| **InputGroup** / **InputField** | `input-group.tsx` | Labeled text entry inside the measure |
+| **InputCopy** | `input-copy.tsx` | Copy-to-clipboard field (citations, paths) |
+| **InputMessage** | `input-message.tsx` | Composer / chat input with attachments |
+| **ChatMessage** | `chat-message.tsx` | Bubbles for short dialogic specimens |
+| **AskUserQuestions** | `ask-user-questions.tsx` | Structured Q&A panels |
+| **ColorPickerPopover** | `color-picker.tsx` | Rubric / ink swatch picking |
+| **ThinkingIndicator** | `thinking-indicator.tsx` | Indeterminate “working” status |
+| **ThinkingSteps** | `thinking-steps.tsx` | Multi-step progress disclosure |
+| **FileThumbnail** | `file-thumbnail.tsx` | Attached file / press-mark chip |
+
+Supporting pieces (not usually authored alone): `menu-item` (dropdown rows),
+shape / surface / icon context from `lib/`.
+
+**Aldine remapping checklist** after any `shadcn add` from the registry:
+
+1. Semantic colors still point at `--ink` / `--paper` / `--rubric` (not cool gray).
+2. Focus ring is `--focus-ring: var(--rubric)`.
+3. Shape default remains `rounded` in `UiProviders`.
+4. Button spinner keyframes (`.ff-spinner-path`) live **outside** `@theme` in
+   `globals.css` — registry overwrites of `button.tsx` can drop the class hook.
+5. Dialogs respect `scrollbar-gutter: stable` (see
+   `html body[data-scroll-locked]` override — do not remove).
+
+Install or refresh:
+
+```
+npx shadcn@latest add https://www.fluidfunctionalism.com/r/<name>.json
+```
+
+### 6.6 Specimens in MDX
+
+Demos live in `components/demos/`, exported from `components/demos/index.ts`,
+and registered in `mdx-components.tsx` — no imports in essays. Prefer
+**literary context** over a component zoo: the control should feel like a
+tool the text asked for.
+
+| Demo | Components exercised | Essay |
+| --- | --- | --- |
+| `<DemoSurfaces />` | `Elevated`, surface ladder | Specimen; Whiteness |
+| `<DemoMotionSprings />` | `spring.*`, Button | Specimen |
+| `<DemoScrollCatalogue />` | ScrollArea + scroll-fade | Whiteness |
+| `<DemoButtons />` | Button (incl. loading) | Specimen |
+| `<DemoBadgeTooltip />` | Badge, Tooltip, Button | Specimen |
+| `<DemoThinking />` | ThinkingIndicator | Specimen |
+| `<DemoColorRubric />` | ColorPickerPopover | Specimen |
+| `<DemoMobileDrawerNav />` | MobileDrawer, Button | Specimen |
+| `<DemoFileMark />` | FileThumbnail | Specimen |
+| `<DemoDialogDropdown />` | Dialog, Dropdown, MenuItem | Whiteness |
+| `<DemoChatComposer />` | ChatMessage, InputMessage | Whiteness |
+| `<DemoAccordionCivility />` | Accordion | Rules of Civility |
+| `<DemoSwitchCivility />` | Switch | Rules of Civility |
+| `<DemoTableEconomy />` | Table | Economy |
+| `<DemoSliderEconomy />` | SliderComfortable | Economy |
+| `<DemoInputCopyCite />` | InputCopy | Economy |
+| `<DemoRadioSelection />` | RadioGroup | Natural Selection |
+| `<DemoSegmentedTabs />` | Tabs | Natural Selection |
+| `<DemoCheckboxStruggle />` | CheckboxGroup | Struggle for Existence |
+| `<DemoSelectTabs />` | Select, TabsSubtle | Struggle for Existence |
+| `<DemoInputSong />` | InputGroup | Song of Myself |
+| `<DemoAskQuestions />` | AskUserQuestions | Song of Myself |
+| `<DemoRecapControls />` | Button, Switch, Badge, ThinkingIndicator | Recapitulation |
+| `<DemoThinkingSteps />` | ThinkingSteps | Recapitulation |
+
+Styling hook for demos: `.ui-demo` / `.ui-demo-label` in `globals.css` —
+hairline rules, small-caps label in rubric, capped at `--measure`.
+
+---
+
+## 7 · Where modern React helps — without overshadowing
 
 The vision is Bringhurst's; React is only the press. Places where components
 earn their keep *because* they enforce the craft rather than decorate it:
 
-- **`<Sidenote>` / `<MarginNote>`** — encapsulate the checkbox-toggle markup
-  and the CSS counter so authors write one tag, and the margin mechanics are
-  never gotten wrong.
+- **`<Sidenote>` / `<MarginNote>`** — encapsulate the toggle markup and the
+  CSS counter so authors write one tag, and the margin mechanics are never
+  gotten wrong. Narrow-viewport reveal uses the shared spring tokens.
 - **`<Verse>`** — parses a plain string into hung lines and stanzas, so poems
   are pasted verbatim and the runover-indent rule is applied for you.
 - **`<Figure>`** — wires the caption into the scholar's margin automatically.
 - **MDX** — lets nineteenth-century prose be authored as prose, with the
-  typographic components in scope, no imports.
+  typographic set and FF demos in scope, no imports.
 - **`next/font`** — subsets and self-hosts the faces at build time; the full
   OpenType feature set ships and no request leaves for a font server.
+- **`UiProviders` + FF UI** — surfaces, scroll-fade, and springs so interactive
+  chrome stays legible without inventing per-component timing or elevation.
 
-Deliberately **avoided**: entrance animations, scroll effects, parallax,
-color transitions, anything that competes with the text. Bringhurst's whole
-counsel is that the page should disappear and leave only the reading. The
-React here is structural, not theatrical.
+Deliberately **avoided**: decorative entrance animations, parallax, scroll-
+hijacking theatrics, gradients-as-decoration, second accent colors, anything
+that competes with the text. Functional motion — a dialog settling, a
+sidenote unfolding, a scrollbar that admits more content — is allowed when
+it makes state readable. Bringhurst's counsel still holds: the page should
+disappear and leave the reading. The behavioral layer is structural honesty
+for controls, not theatre.
 
 ---
 
-## 7 · Checklist for a new page
+## 8 · Checklist for a new page
 
 - [ ] Body capped at `--measure`; essays use `.with-margin` + `.typeset`
 - [ ] All vertical spacing a multiple of `--baseline`
@@ -231,7 +408,12 @@ React here is structural, not theatrical.
 - [ ] Every abbreviation in `<abbr>`; names in `<SmallCaps>` where wanted
 - [ ] At most one pull quote; at most one drop cap (the opener)
 - [ ] Links quiet, rubric only on hover
-- [ ] Dark mode checked (the six tokens invert cleanly)
+- [ ] Dark mode checked (ink/paper tokens + surface ladder)
+- [ ] Interactive chrome uses FF components from `components/ui/` — not one-off controls
+- [ ] Overlays use `Elevated` / surface context — no ad-hoc z-index stacks
+- [ ] Motion from `lib/springs` (or `lib/motion`) — no ad-hoc durations
+- [ ] Scroll regions: `ScrollArea` + `scroll-fade` / `scroll-fade-x` when clipped
+- [ ] New FF demos registered in `mdx-components.tsx` and placed in literary context
 - [ ] Print stylesheet: nav/footer hidden, ink on white
 
 *See `PRINCIPLES.md` for the reasoning and citations behind every rule above.*

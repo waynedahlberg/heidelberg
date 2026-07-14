@@ -2,7 +2,7 @@
 
 import { useMediaQuery, NARROW_MARGIN_QUERY } from "@/hooks/useMediaQuery";
 import { quietTransition } from "@/lib/motion";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useId, useState, type ReactNode } from "react";
 
 /**

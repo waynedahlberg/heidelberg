@@ -1,12 +1,12 @@
-/** Shared Motion curves — aligned with the View Transitions fade in globals.css. */
-export const easeQuiet = [0.4, 0, 0.2, 1] as const;
+import { spring } from "@/lib/springs";
 
-export const quietTransition = {
-  duration: 0.28,
-  ease: easeQuiet,
-} as const;
+/**
+ * Typographic motion — same three-tier springs as Fluid Functionalism UI.
+ * Sidenotes / margin notes use moderate (panel); header chrome uses fast.
+ * Exits are one tier quicker via spring.*.exit when AnimatePresence is used.
+ */
+export const quietTransition = spring.moderate;
 
-export const quietTransitionFast = {
-  duration: 0.22,
-  ease: easeQuiet,
-} as const;
+export const quietTransitionFast = spring.fast;
+
+export const quietTransitionSlow = spring.slow;

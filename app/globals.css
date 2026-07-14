@@ -33,12 +33,33 @@
   --rule: #d9d3c1;           /* hairlines                                    */
   --paper-recessed: #f5f1e4; /* code blocks, table stripes if ever needed    */
 
+  /* Surfaces: warm paper ladder (FF — light flattens early; shadow carries
+     elevation). Page substrate is surface-1 = reading paper. Recessed wells
+     (code, demos) use --paper-recessed directly, not a lower surface step. */
+  --surface-1: var(--paper);
+  --surface-2: var(--paper);
+  --surface-3: var(--paper);
+  --surface-4: var(--paper);
+  --surface-5: var(--paper);
+  --surface-6: var(--paper);
+  --surface-7: var(--paper);
+  --surface-8: var(--paper);
+  --shadow-color: rgb(35 32 26 / 0.07);
+  --shadow-1: 0 0 0 1px var(--shadow-color);
+  --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
+  --shadow-3: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color);
+  --shadow-4: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color);
+  --shadow-5: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color);
+  --shadow-6: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color);
+  --shadow-7: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color);
+  --shadow-8: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color), 0 96px 96px -48px var(--shadow-color);
+
   /* Fluid Functionalism semantic tokens → Aldine ink & paper */
-  --background: var(--paper);
+  --background: var(--surface-1);
   --foreground: var(--ink);
-  --card: var(--paper);
+  --card: var(--surface-3);
   --card-foreground: var(--ink);
-  --popover: var(--paper);
+  --popover: var(--surface-3);
   --popover-foreground: var(--ink);
   --primary: var(--ink);
   --primary-foreground: var(--paper);
@@ -58,25 +79,6 @@
   --active: color-mix(in oklab, var(--ink) 10%, var(--paper));
   --focus-ring: var(--rubric);
   --overlay: 35 32 26; /* ink RGB for color-mix overlays in FF switches */
-
-  /* Surfaces: warm paper ladder (not cool gray) */
-  --surface-1: var(--paper-recessed);
-  --surface-2: color-mix(in oklab, var(--paper) 85%, var(--paper-recessed));
-  --surface-3: var(--paper);
-  --surface-4: var(--paper);
-  --surface-5: var(--paper);
-  --surface-6: var(--paper);
-  --surface-7: var(--paper);
-  --surface-8: var(--paper);
-  --shadow-color: rgb(35 32 26 / 0.07);
-  --shadow-1: 0 0 0 1px var(--shadow-color);
-  --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
-  --shadow-3: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color);
-  --shadow-4: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color);
-  --shadow-5: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color);
-  --shadow-6: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color);
-  --shadow-7: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color);
-  --shadow-8: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color), 0 96px 96px -48px var(--shadow-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -88,7 +90,37 @@
     --rule: #3b372e;
     --paper-recessed: #211e18;
     --overlay: 229 224 210;
+    --hover: rgb(255 255 255 / 0.06);
+    --active: rgb(255 255 255 / 0.1);
+
+    /* Dark surfaces: additive lift over the warm floor (FF directive —
+       progressively lighter backgrounds; shadow recipes use inset highlight) */
+    --surface-1: #191713;
+    --surface-2: #211e18;
+    --surface-3: #2a261f;
+    --surface-4: #332e25;
+    --surface-5: #3c362c;
+    --surface-6: #453f33;
+    --surface-7: #4e473a;
+    --surface-8: #575041;
+
+    --dm-hi-base: rgba(255, 255, 255, 0.01);
+    --dm-hi-mid: rgba(255, 255, 255, 0.02);
+    --dm-hi-high: rgba(255, 255, 255, 0.04);
+    --dm-hi-peak: rgba(255, 255, 255, 0.06);
+    --dm-ring-base: rgba(255, 255, 255, 0.02);
+    --dm-ring-mid: rgba(255, 255, 255, 0.04);
+    --dm-ring-high: rgba(255, 255, 255, 0.06);
+    --dm-drop: rgba(0, 0, 0, 0.22);
     --shadow-color: rgb(0 0 0 / 0.35);
+    --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
+    --shadow-2: inset 0 1px 0 0 var(--dm-hi-base), inset 0 0 0 1px var(--dm-ring-base), 0 1px 1px -0.5px var(--dm-drop);
+    --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
+    --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0, 0, 0, 0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop);
+    --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0, 0, 0, 0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
+    --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
+    --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop);
+    --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
   }
 }
 
@@ -190,6 +222,111 @@
   }
 }
 
+/* ── scroll-fade — vendored from Fluid Functionalism / shadcn scroll-fade ──
+   Mask dissolves content toward edges that still have more to scroll.
+   Scroll-driven animations keep the true start/end crisp. Apply on a scroll
+   container or via ScrollArea `viewportClassName`. */
+@property --sf-start {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+@property --sf-end {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@keyframes sf-reveal-start {
+  from { --sf-start: 1; }
+  to { --sf-start: 0; }
+}
+@keyframes sf-reveal-end {
+  from { --sf-end: 0; }
+  to { --sf-end: 1; }
+}
+
+.scroll-fade,
+.scroll-fade-x {
+  --scroll-fade-size: 48px;
+}
+
+.scroll-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--scroll-fade-size),
+    #000 calc(100% - var(--scroll-fade-size)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--scroll-fade-size),
+    #000 calc(100% - var(--scroll-fade-size)),
+    transparent 100%
+  );
+}
+.scroll-fade-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--scroll-fade-size),
+    #000 calc(100% - var(--scroll-fade-size)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--scroll-fade-size),
+    #000 calc(100% - var(--scroll-fade-size)),
+    transparent 100%
+  );
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-fade {
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--sf-start)) 0,
+      #000 var(--scroll-fade-size),
+      #000 calc(100% - var(--scroll-fade-size)),
+      rgba(0, 0, 0, var(--sf-end)) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--sf-start)) 0,
+      #000 var(--scroll-fade-size),
+      #000 calc(100% - var(--scroll-fade-size)),
+      rgba(0, 0, 0, var(--sf-end)) 100%
+    );
+    animation: sf-reveal-start both linear, sf-reveal-end both linear;
+    animation-timeline: scroll(self), scroll(self);
+    animation-range-start: 0, calc(100% - var(--scroll-fade-size));
+    animation-range-end: var(--scroll-fade-size), 100%;
+  }
+  .scroll-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, var(--sf-start)) 0,
+      #000 var(--scroll-fade-size),
+      #000 calc(100% - var(--scroll-fade-size)),
+      rgba(0, 0, 0, var(--sf-end)) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, var(--sf-start)) 0,
+      #000 var(--scroll-fade-size),
+      #000 calc(100% - var(--scroll-fade-size)),
+      rgba(0, 0, 0, var(--sf-end)) 100%
+    );
+    animation: sf-reveal-start both linear, sf-reveal-end both linear;
+    animation-timeline: scroll(self inline), scroll(self inline);
+    animation-range-start: 0, calc(100% - var(--scroll-fade-size));
+    animation-range-end: var(--scroll-fade-size), 100%;
+  }
+}
+
 /* ----------------------------------------------------------------------------
    2 · PROPORTION  (EoTS 2.2 — "choose a basic leading that suits the
    typeface, text and measure"; webtypography.net 2.2.1–2.2.2)
@@ -285,7 +422,7 @@
 }
 
 html {
-  background: var(--paper);
+  background: var(--background);
   color: var(--ink);
   /* Reserve the scrollbar lane even on short pages so the column
      does not shift when navigating between scrollable and non-scrollable routes. */
@@ -1105,31 +1242,42 @@ button.margin-toggle.sidenote-number {
   .typeset a { text-decoration: none; }
 }
 
+/* Class-based dark (optional) — same warm ladder as prefers-color-scheme */
 .dark {
-  --surface-1: #171717;
-  --surface-2: #1E1E1E;
-  --surface-3: #252525;
-  --surface-4: #2C2C2C;
-  --surface-5: #333333;
-  --surface-6: #3A3A3A;
-  --surface-7: #414141;
-  --surface-8: #484848;
-  --dm-hi-base: rgba(255,255,255,0.01);
-  --dm-hi-mid: rgba(255,255,255,0.02);
-  --dm-hi-high: rgba(255,255,255,0.04);
-  --dm-hi-peak: rgba(255,255,255,0.06);
-  --dm-ring-base: rgba(255,255,255,0.02);
-  --dm-ring-mid: rgba(255,255,255,0.04);
-  --dm-ring-high: rgba(255,255,255,0.06);
-  --dm-drop: rgba(0,0,0,0.18);
+  --paper: #191713;
+  --ink: #e5e0d2;
+  --ink-faded: #97917f;
+  --rubric: #d0755f;
+  --rule: #3b372e;
+  --paper-recessed: #211e18;
+  --overlay: 229 224 210;
+  --hover: rgb(255 255 255 / 0.06);
+  --active: rgb(255 255 255 / 0.1);
+  --surface-1: #191713;
+  --surface-2: #211e18;
+  --surface-3: #2a261f;
+  --surface-4: #332e25;
+  --surface-5: #3c362c;
+  --surface-6: #453f33;
+  --surface-7: #4e473a;
+  --surface-8: #575041;
+  --dm-hi-base: rgba(255, 255, 255, 0.01);
+  --dm-hi-mid: rgba(255, 255, 255, 0.02);
+  --dm-hi-high: rgba(255, 255, 255, 0.04);
+  --dm-hi-peak: rgba(255, 255, 255, 0.06);
+  --dm-ring-base: rgba(255, 255, 255, 0.02);
+  --dm-ring-mid: rgba(255, 255, 255, 0.04);
+  --dm-ring-high: rgba(255, 255, 255, 0.06);
+  --dm-drop: rgba(0, 0, 0, 0.22);
+  --shadow-color: rgb(0 0 0 / 0.35);
   --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
   --shadow-2: inset 0 1px 0 0 var(--dm-hi-base), inset 0 0 0 1px var(--dm-ring-base), 0 1px 1px -0.5px var(--dm-drop);
-  --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base), 0 0 0 1px rgba(0,0,0,0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
-  --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0,0,0,0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop);
-  --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0,0,0,0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
-  --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
-  --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.20), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop);
-  --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0,0,0,0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
+  --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
+  --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0, 0, 0, 0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop);
+  --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px rgba(0, 0, 0, 0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
+  --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
+  --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop);
+  --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px rgba(0, 0, 0, 0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
 }
 
 .shimmer-text {

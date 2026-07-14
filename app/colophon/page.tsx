@@ -68,6 +68,28 @@ export default function ColophonPage() {
               <code>PRINCIPLES.md</code> (the reasoning), both in the
               repository root.
             </p>
+            <h2>The chrome</h2>
+            <p className="flush">
+              <Newthought>When the page must also act</Newthought> — open a
+              dialog, nest a menu, admit a longer catalogue — the interactive
+              layer follows{" "}
+              <a href="https://www.fluidfunctionalism.com">
+                Fluid Functionalism
+              </a>
+              : eight nested surface levels so overlays lift relative to
+              whatever they sit in; scroll regions that fade at the edge and
+              keep a quiet thumb until hover; three spring speeds shared by
+              every control, with exits a little quicker than entrances. The
+              same registry supplies the component kit — buttons, dialogs,
+              dropdowns, selects, accordions, tabs, sliders, tables, switches,
+              radio and checkbox groups, inputs, chat and ask-question panels,
+              thinking indicators, a color picker, file thumbnails, a mobile
+              drawer — all remapped to this site’s ink and paper, rounded not
+              pill. Motion that clarifies state is kept; motion that decorates
+              is left out. Specimens appear in the essays where the text asks
+              for a tool, not as a separate component zoo; the inventory lives
+              in <code>design.md</code> §6.
+            </p>
             <SectionBreak />
             <h2>Sources &amp; further reading</h2>
             <ul>
@@ -113,6 +135,25 @@ export default function ColophonPage() {
               <li>
                 Bram Stein, <em>Webfont Handbook</em> (A Book Apart, 2017) —
                 loading, subsetting, and OpenType features in depth.
+              </li>
+              <li>
+                <a href="https://www.fluidfunctionalism.com">
+                  Fluid Functionalism
+                </a>{" "}
+                — surfaces, scrollbars, and motion for interactive chrome;
+                see{" "}
+                <a href="https://www.fluidfunctionalism.com/docs/surfaces">
+                  Surfaces
+                </a>
+                ,{" "}
+                <a href="https://www.fluidfunctionalism.com/docs/scrollbars">
+                  Scrollbars
+                </a>
+                , and{" "}
+                <a href="https://www.fluidfunctionalism.com/docs/motion">
+                  Motion
+                </a>
+                .
               </li>
             </ul>
           </div>
