@@ -13,6 +13,11 @@ const links = [
   { href: "/about", label: "About" },
   { href: "/colophon", label: "Colophon" },
   { href: "/contact", label: "Contact" },
+  {
+    href: "https://github.com/waynedahlberg/heidelberg",
+    label: "GitHub",
+    external: true,
+  },
 ];
 
 export function Header({ current }: { current?: string }) {
@@ -82,17 +87,30 @@ export function Header({ current }: { current?: string }) {
         style={{ overflow: "hidden" }}
         inert={phone && !open ? true : undefined}
       >
-        {links.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className="site-nav-link"
-            aria-current={current === l.href ? "page" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            {l.label}
-          </Link>
-        ))}
+        {links.map((l) =>
+          l.external ? (
+            <a
+              key={l.href}
+              href={l.href}
+              className="site-nav-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ) : (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="site-nav-link"
+              aria-current={current === l.href ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </Link>
+          )
+        )}
       </motion.nav>
     </header>
   );
